@@ -325,6 +325,116 @@ async function main() {
     },
   });
 
+  // Stage 5: football statistic definitions + performance tests + demo season
+  const { FOOTBALL_STAT_DEFINITIONS, FOOTBALL_PERFORMANCE_TESTS } = await import(
+    './stage5-catalog'
+  );
+
+  for (const def of FOOTBALL_STAT_DEFINITIONS) {
+    await prisma.statisticDefinition.upsert({
+      where: { sportId_code: { sportId: football.id, code: def.code } },
+      update: {
+        name: def.name,
+        shortName: def.shortName,
+        description: def.description ?? null,
+        dataType: def.dataType,
+        unit: def.unit ?? null,
+        aggregationType: def.aggregationType,
+        category: def.category,
+        higherIsBetter: def.higherIsBetter ?? null,
+        active: true,
+        displayOrder: def.displayOrder,
+      },
+      create: {
+        sportId: football.id,
+        code: def.code,
+        name: def.name,
+        shortName: def.shortName,
+        description: def.description ?? null,
+        dataType: def.dataType,
+        unit: def.unit ?? null,
+        aggregationType: def.aggregationType,
+        category: def.category,
+        higherIsBetter: def.higherIsBetter ?? null,
+        active: true,
+        displayOrder: def.displayOrder,
+      },
+    });
+  }
+
+  for (const test of FOOTBALL_PERFORMANCE_TESTS) {
+    await prisma.performanceTestDefinition.upsert({
+      where: { code: test.code },
+      update: {
+        sportId: football.id,
+        name: test.name,
+        description: test.description ?? null,
+        measurementType: test.measurementType,
+        unit: test.unit,
+        lowerIsBetter: test.lowerIsBetter,
+        active: true,
+        displayOrder: test.displayOrder,
+      },
+      create: {
+        sportId: football.id,
+        code: test.code,
+        name: test.name,
+        description: test.description ?? null,
+        measurementType: test.measurementType,
+        unit: test.unit,
+        lowerIsBetter: test.lowerIsBetter,
+        active: true,
+        displayOrder: test.displayOrder,
+      },
+    });
+  }
+
+  const season = await prisma.season.upsert({
+    where: {
+      sportId_name_year: {
+        sportId: football.id,
+        name: '2026 Fall',
+        year: 2026,
+      },
+    },
+    update: {
+      status: 'ACTIVE',
+      startDate: new Date('2026-08-01T00:00:00.000Z'),
+      endDate: new Date('2026-12-15T00:00:00.000Z'),
+    },
+    create: {
+      sportId: football.id,
+      name: '2026 Fall',
+      year: 2026,
+      status: 'ACTIVE',
+      startDate: new Date('2026-08-01T00:00:00.000Z'),
+      endDate: new Date('2026-12-15T00:00:00.000Z'),
+    },
+  });
+
+  await prisma.athleteSeason.upsert({
+    where: {
+      athleteId_seasonId: {
+        athleteId: athlete.id,
+        seasonId: season.id,
+      },
+    },
+    update: {
+      selfReportedTeamName: 'North Field Demo HS',
+      jerseyNumber: '7',
+      status: 'ACTIVE',
+    },
+    create: {
+      athleteId: athlete.id,
+      seasonId: season.id,
+      sportId: football.id,
+      organizationId: org.id,
+      selfReportedTeamName: 'North Field Demo HS',
+      jerseyNumber: '7',
+      status: 'ACTIVE',
+    },
+  });
+
   await prisma.auditEvent.create({
     data: {
       actorType: 'system',
@@ -343,6 +453,7 @@ async function main() {
         organizationId: org.id,
         sportId: football.id,
         athleteProfileId: athlete.id,
+        seasonId: season.id,
         note: 'Synthetic development seed — not real persons.',
       },
     },
@@ -358,6 +469,7 @@ async function main() {
   console.log('  orgadmin@scoutai.dev / OrgAdminPass1! (ORGANIZATION_ADMIN)');
   console.log('  recruiter@scoutai.dev / RecruiterPass1! (RECRUITER)');
   console.log(`  demo athlete slug: ${demoSlug}`);
+  console.log(`  demo season: ${season.name} (${season.year})`);
 }
 
 main()

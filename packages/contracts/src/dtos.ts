@@ -224,3 +224,183 @@ export interface PublishResult {
   publishedAt: string | null;
   completeness: CompletenessResult;
 }
+
+// --- Stage 5: Games / Stats / Performance ---
+
+export interface SeasonDto {
+  id: string;
+  sportId: string;
+  sportCode: string;
+  name: string;
+  year: number;
+  startDate: string | null;
+  endDate: string | null;
+  status: string;
+}
+
+export interface AthleteSeasonDto {
+  id: string;
+  athleteId: string;
+  seasonId: string;
+  sportId: string;
+  sportCode: string;
+  seasonName: string;
+  seasonYear: number;
+  seasonStatus: string;
+  selfReportedTeamName: string | null;
+  jerseyNumber: string | null;
+  primaryPositionId: string | null;
+  organizationId: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StatisticDefinitionDto {
+  id: string;
+  sportId: string;
+  code: string;
+  name: string;
+  shortName: string;
+  description: string | null;
+  dataType: string;
+  unit: string | null;
+  aggregationType: string;
+  category: string;
+  higherIsBetter: boolean | null;
+  active: boolean;
+  displayOrder: number;
+  derived: boolean;
+}
+
+export interface GameStatisticDto {
+  statisticCode: string;
+  name: string;
+  shortName: string;
+  category: string;
+  unit: string | null;
+  numericValue: number;
+  sourceType: string;
+  verificationStatus: string;
+  derived?: boolean;
+}
+
+export interface GameListItemDto {
+  id: string;
+  seasonId: string;
+  scheduledStart: string;
+  timezone: string;
+  status: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  opponentName: string | null;
+  homeAway: 'HOME' | 'AWAY' | 'UNKNOWN';
+  locationName: string | null;
+  homeScore: number | null;
+  awayScore: number | null;
+  result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+  participationStatus: string | null;
+  hasStatistics: boolean;
+}
+
+export interface GameDetailDto extends GameListItemDto {
+  city: string | null;
+  stateRegion: string | null;
+  countryCode: string | null;
+  participationId: string | null;
+  jerseyNumber: string | null;
+  starter: boolean | null;
+  statistics: GameStatisticDto[];
+  possibleDuplicates?: GameListItemDto[];
+  videoPlaceholder: string;
+}
+
+export interface CreateGameResult {
+  game: GameDetailDto;
+  possibleDuplicates: GameListItemDto[];
+  duplicateWarning: boolean;
+}
+
+export interface SeasonAggregateDto {
+  seasonId: string;
+  athleteSeasonId: string | null;
+  totals: GameStatisticDto[];
+  gamesPlayed: number;
+}
+
+export interface GameByGameStatRowDto {
+  gameId: string;
+  scheduledStart: string;
+  opponentName: string | null;
+  result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+  statistics: GameStatisticDto[];
+}
+
+export interface PerformanceTestDefinitionDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  measurementType: string;
+  unit: string;
+  lowerIsBetter: boolean;
+  sportId: string | null;
+  displayOrder: number;
+}
+
+export interface PerformanceResultDto {
+  id: string;
+  testCode: string;
+  testName: string;
+  unit: string;
+  numericValue: number;
+  performedAt: string;
+  eventName: string | null;
+  locationName: string | null;
+  sourceType: string;
+  verificationStatus: string;
+  sourceLabel: string;
+  notes: string | null;
+}
+
+export interface PersonalBestDto {
+  testCode: string;
+  testName: string;
+  unit: string;
+  lowerIsBetter: boolean;
+  bestAvailable: PerformanceResultDto | null;
+  bestVerified: PerformanceResultDto | null;
+}
+
+export interface PublicPerformanceSection {
+  seasonSummaries: Array<{
+    seasonName: string;
+    seasonYear: number;
+    totals: Array<{
+      code: string;
+      name: string;
+      shortName: string;
+      value: number;
+      unit: string | null;
+      sourceLabel: string;
+      verificationStatus: string;
+    }>;
+  }>;
+  recentGames: Array<{
+    scheduledStart: string;
+    opponentName: string | null;
+    homeAway: 'HOME' | 'AWAY' | 'UNKNOWN';
+    result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+    homeScore: number | null;
+    awayScore: number | null;
+  }>;
+  performanceBests: Array<{
+    testCode: string;
+    testName: string;
+    unit: string;
+    value: number | null;
+    sourceLabel: string | null;
+    verificationStatus: string | null;
+    verifiedBestAvailable: boolean;
+  }>;
+}

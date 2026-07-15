@@ -17,6 +17,16 @@ export {
   RecruitingStatus,
   CommitmentStatus,
   GuardianInviteStatus,
+  SeasonStatus,
+  AthleteSeasonStatus,
+  GameStatus,
+  ParticipationStatus,
+  StatisticDataType,
+  StatisticAggregationType,
+  StatisticCategory,
+  MeasurementType,
+  DataSourceType,
+  VerificationStatus,
 } from '@prisma/client';
 
 export type {
@@ -36,6 +46,15 @@ export type {
   AthletePhysicalProfile,
   AthleteAcademicProfile,
   AthleteRecruitingProfile,
+  Team,
+  Season,
+  AthleteSeason,
+  Game,
+  AthleteGameParticipation,
+  StatisticDefinition,
+  AthleteGameStatistic,
+  PerformanceTestDefinition,
+  PerformanceTestResult,
 } from '@prisma/client';
 
 const globalForPrisma = globalThis as unknown as { scoutaiPrisma?: PrismaClient };

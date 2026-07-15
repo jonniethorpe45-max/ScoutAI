@@ -9,6 +9,8 @@ export {
   canViewPublicAthleteProfile,
   canManageGuardianLink,
   canPublishAthleteProfile,
+  canManageOwnCompetitionData,
+  canSetVerificationStatus,
   type AuthorizationSubject,
   type AuthorizationResult,
   type PublicAthleteViewContext,

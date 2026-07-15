@@ -31,3 +31,22 @@ export {
   type GuardianInviteInput,
   type AdvanceOnboardingInput,
 } from './athlete';
+
+export {
+  createSeasonSchema,
+  createAthleteSeasonSchema,
+  updateAthleteSeasonSchema,
+  createGameSchema,
+  updateGameSchema,
+  upsertParticipationSchema,
+  upsertGameStatisticsSchema,
+  createPerformanceResultSchema,
+  type CreateSeasonInput,
+  type CreateAthleteSeasonInput,
+  type UpdateAthleteSeasonInput,
+  type CreateGameInput,
+  type UpdateGameInput,
+  type UpsertParticipationInput,
+  type UpsertGameStatisticsInput,
+  type CreatePerformanceResultInput,
+} from './performance';

@@ -124,3 +124,127 @@ export type GuardianInviteStatus =
  * LEGAL REVIEW REQUIRED before production use of DOB-based minor gating.
  */
 export const MINOR_AGE_THRESHOLD_YEARS = 18 as const;
+
+export const SeasonStatus = {
+  UPCOMING: 'UPCOMING',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED',
+} as const;
+export type SeasonStatus = (typeof SeasonStatus)[keyof typeof SeasonStatus];
+
+export const AthleteSeasonStatus = {
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED',
+} as const;
+export type AthleteSeasonStatus =
+  (typeof AthleteSeasonStatus)[keyof typeof AthleteSeasonStatus];
+
+export const GameStatus = {
+  SCHEDULED: 'SCHEDULED',
+  PRE_GAME: 'PRE_GAME',
+  LIVE: 'LIVE',
+  DELAYED: 'DELAYED',
+  POSTPONED: 'POSTPONED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED',
+} as const;
+export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus];
+
+export const ParticipationStatus = {
+  ROSTERED: 'ROSTERED',
+  EXPECTED: 'EXPECTED',
+  CONFIRMED_ACTIVE: 'CONFIRMED_ACTIVE',
+  PARTICIPATED: 'PARTICIPATED',
+  DID_NOT_PARTICIPATE: 'DID_NOT_PARTICIPATE',
+  UNKNOWN: 'UNKNOWN',
+} as const;
+export type ParticipationStatus =
+  (typeof ParticipationStatus)[keyof typeof ParticipationStatus];
+
+export const StatisticDataType = {
+  INTEGER: 'INTEGER',
+  DECIMAL: 'DECIMAL',
+  PERCENTAGE: 'PERCENTAGE',
+} as const;
+export type StatisticDataType =
+  (typeof StatisticDataType)[keyof typeof StatisticDataType];
+
+export const StatisticAggregationType = {
+  SUM: 'SUM',
+  AVERAGE: 'AVERAGE',
+  MAX: 'MAX',
+  MIN: 'MIN',
+  LATEST: 'LATEST',
+  DERIVED: 'DERIVED',
+} as const;
+export type StatisticAggregationType =
+  (typeof StatisticAggregationType)[keyof typeof StatisticAggregationType];
+
+export const StatisticCategory = {
+  PASSING: 'PASSING',
+  RUSHING: 'RUSHING',
+  RECEIVING: 'RECEIVING',
+  DEFENSE: 'DEFENSE',
+  KICKING: 'KICKING',
+  PUNTING: 'PUNTING',
+  RETURNS: 'RETURNS',
+  OTHER: 'OTHER',
+} as const;
+export type StatisticCategory =
+  (typeof StatisticCategory)[keyof typeof StatisticCategory];
+
+export const MeasurementType = {
+  TIME: 'TIME',
+  DISTANCE: 'DISTANCE',
+  HEIGHT: 'HEIGHT',
+  WEIGHT: 'WEIGHT',
+  COUNT: 'COUNT',
+} as const;
+export type MeasurementType = (typeof MeasurementType)[keyof typeof MeasurementType];
+
+export const DataSourceType = {
+  SELF_REPORTED: 'SELF_REPORTED',
+  COACH_REPORTED: 'COACH_REPORTED',
+  ORGANIZATION_REPORTED: 'ORGANIZATION_REPORTED',
+  IMPORTED: 'IMPORTED',
+  SOURCE_VERIFIED: 'SOURCE_VERIFIED',
+  SCOUTAI_VERIFIED: 'SCOUTAI_VERIFIED',
+} as const;
+export type DataSourceType = (typeof DataSourceType)[keyof typeof DataSourceType];
+
+export const VerificationStatus = {
+  UNVERIFIED: 'UNVERIFIED',
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED',
+  REVOKED: 'REVOKED',
+} as const;
+export type VerificationStatus =
+  (typeof VerificationStatus)[keyof typeof VerificationStatus];
+
+/** Athlete cannot self-assign these source types. */
+export const ATHLETE_ALLOWED_SOURCE_TYPES = [DataSourceType.SELF_REPORTED] as const;
+
+/** Position → recommended statistic categories (UI guidance only; not authz). */
+export const FOOTBALL_POSITION_STAT_CATEGORIES: Record<string, StatisticCategory[]> = {
+  QB: [StatisticCategory.PASSING, StatisticCategory.RUSHING],
+  RB: [StatisticCategory.RUSHING, StatisticCategory.RECEIVING],
+  WR: [StatisticCategory.RECEIVING, StatisticCategory.RUSHING],
+  TE: [StatisticCategory.RECEIVING, StatisticCategory.RUSHING],
+  DL: [StatisticCategory.DEFENSE],
+  EDGE: [StatisticCategory.DEFENSE],
+  LB: [StatisticCategory.DEFENSE],
+  CB: [StatisticCategory.DEFENSE],
+  S: [StatisticCategory.DEFENSE],
+  K: [StatisticCategory.KICKING],
+  P: [StatisticCategory.PUNTING],
+  ATH: [
+    StatisticCategory.PASSING,
+    StatisticCategory.RUSHING,
+    StatisticCategory.RECEIVING,
+    StatisticCategory.DEFENSE,
+  ],
+};
