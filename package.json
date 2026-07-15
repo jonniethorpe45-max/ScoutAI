@@ -12,7 +12,8 @@
     "dev:api": "pnpm --filter @scoutai/api dev",
     "dev:worker": "pnpm --filter @scoutai/worker dev",
     "build": "turbo run build",
-    "lint": "turbo run lint",
+    "lint": "eslint .",
+    "lint:packages": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:integration": "turbo run test:integration",
@@ -25,10 +26,12 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
     "@types/node": "^22.10.5",
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
     "turbo": "^2.3.3",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0"
   }
 }

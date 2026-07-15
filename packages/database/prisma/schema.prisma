@@ -54,6 +54,55 @@ enum OrganizationMemberRole {
   ADMIN
 }
 
+enum ProfileStatus {
+  DRAFT
+  ACTIVE
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ProfileVisibility {
+  PRIVATE
+  CONNECTIONS
+  PUBLIC
+}
+
+enum SportStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum OnboardingStage {
+  ACCOUNT_READY
+  IDENTITY
+  SPORT
+  ACADEMIC
+  RECRUITING
+  VISIBILITY
+  COMPLETE
+}
+
+enum RecruitingStatus {
+  UNDECIDED
+  OPEN
+  CLOSED
+  COMMITTED
+}
+
+enum CommitmentStatus {
+  NONE
+  VERBAL
+  WRITTEN
+  SIGNED
+}
+
+enum GuardianInviteStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+  EXPIRED
+}
+
 model User {
   id              String     @id @default(uuid()) @db.Uuid
   email           String
@@ -69,6 +118,7 @@ model User {
   athleteProfile        Athlete?
   recruiterProfile      Recruiter?
   guardianRelationships GuardianRelationship[] @relation("GuardianUser")
+  guardianInvitesSent   GuardianRelationship[] @relation("GuardianInviter")
   auditEvents           AuditEvent[]
 
   @@index([email])
@@ -87,11 +137,11 @@ model UserRole {
 }
 
 model Session {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  tokenHash String   @unique
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  tokenHash String    @unique
   expiresAt DateTime
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   revokedAt DateTime?
   ipAddress String?
   userAgent String?
@@ -131,6 +181,7 @@ model Organization {
 
   members    OrganizationMember[]
   recruiters Recruiter[]
+  athletes   Athlete[]
 }
 
 model OrganizationMember {
@@ -148,43 +199,172 @@ model OrganizationMember {
   @@unique([organizationId, userId])
 }
 
-model Athlete {
-  id          String    @id @default(uuid()) @db.Uuid
-  userId      String?   @unique @db.Uuid
-  displayName String
-  dateOfBirth DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+model Sport {
+  id        String     @id @default(uuid()) @db.Uuid
+  code      String     @unique
+  name      String
+  status    SportStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-  user                  User?                  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  positions     Position[]
+  athleteSports AthleteSport[]
+}
+
+model Position {
+  id           String   @id @default(uuid()) @db.Uuid
+  sportId      String   @db.Uuid
+  code         String
+  name         String
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sport            Sport             @relation(fields: [sportId], references: [id], onDelete: Cascade)
+  athletePositions AthletePosition[]
+
+  @@unique([sportId, code])
+  @@index([sportId])
+}
+
+model Athlete {
+  id                   String            @id @default(uuid()) @db.Uuid
+  userId               String?           @unique @db.Uuid
+  slug                 String            @unique
+  firstName            String            @default("")
+  middleName           String?
+  lastName             String            @default("")
+  preferredName        String?
+  displayName          String
+  dateOfBirth          DateTime?
+  city                 String?
+  stateRegion          String?
+  countryCode          String            @default("US")
+  postalCode           String?
+  biography            String?
+  profileStatus        ProfileStatus     @default(DRAFT)
+  profileVisibility    ProfileVisibility @default(PRIVATE)
+  onboardingStage      OnboardingStage   @default(ACCOUNT_READY)
+  publishedAt          DateTime?
+  visibilitySetAt      DateTime?
+  schoolNameReported   String?
+  teamNameReported     String?
+  organizationId       String?           @db.Uuid
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  user                  User?                      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  organization          Organization?              @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  sports                AthleteSport[]
+  positions             AthletePosition[]
+  physicalProfile       AthletePhysicalProfile?
+  academicProfile       AthleteAcademicProfile?
+  recruitingProfile     AthleteRecruitingProfile?
   guardianRelationships GuardianRelationship[]
+
+  @@index([organizationId])
+  @@index([profileStatus])
+  @@index([profileVisibility])
+}
+
+model AthleteSport {
+  id        String  @id @default(uuid()) @db.Uuid
+  athleteId String  @db.Uuid
+  sportId   String  @db.Uuid
+  isPrimary Boolean
+  isActive  Boolean @default(true)
+  startYear Int?
+
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  sport   Sport   @relation(fields: [sportId], references: [id], onDelete: Restrict)
+
+  @@unique([athleteId, sportId])
+  @@index([sportId])
+}
+
+model AthletePosition {
+  id           String  @id @default(uuid()) @db.Uuid
+  athleteId    String  @db.Uuid
+  positionId   String  @db.Uuid
+  sportId      String  @db.Uuid
+  isPrimary    Boolean
+  displayOrder Int     @default(0)
+
+  athlete  Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  position Position @relation(fields: [positionId], references: [id], onDelete: Restrict)
+
+  @@unique([athleteId, positionId])
+  @@index([sportId])
+}
+
+model AthletePhysicalProfile {
+  athleteId String    @id @db.Uuid
+  heightCm  Decimal?  @db.Decimal(5, 2)
+  weightKg  Decimal?  @db.Decimal(6, 2)
+  updatedAt DateTime  @updatedAt
+
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+}
+
+model AthleteAcademicProfile {
+  athleteId       String   @id @db.Uuid
+  schoolName      String?
+  graduationYear  Int?
+  gpa             Decimal? @db.Decimal(4, 2)
+  gpaScale        Decimal? @db.Decimal(4, 2)
+  intendedMajor   String?
+  updatedAt       DateTime @updatedAt
+
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+}
+
+model AthleteRecruitingProfile {
+  athleteId                  String           @id @db.Uuid
+  recruitingStatus           RecruitingStatus @default(UNDECIDED)
+  commitmentStatus           CommitmentStatus @default(NONE)
+  committedOrganizationText  String?
+  recruitingBiography        String?
+  preferredRegions           Json?
+  preferredCompetitionLevels Json?
+  contactPolicy              String           @default("CLOSED")
+  updatedAt                  DateTime         @updatedAt
+
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
 }
 
 model Recruiter {
-  id                 String                       @id @default(uuid()) @db.Uuid
-  userId             String                       @unique @db.Uuid
-  organizationId     String?                      @db.Uuid
-  verificationStatus RecruiterVerificationStatus  @default(UNVERIFIED)
-  createdAt          DateTime                     @default(now())
-  updatedAt          DateTime                     @updatedAt
+  id                 String                      @id @default(uuid()) @db.Uuid
+  userId             String                      @unique @db.Uuid
+  organizationId     String?                     @db.Uuid
+  verificationStatus RecruiterVerificationStatus @default(UNVERIFIED)
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   organization Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
 }
 
 model GuardianRelationship {
-  id               String                      @id @default(uuid()) @db.Uuid
-  guardianUserId   String                      @db.Uuid
-  athleteId        String                      @db.Uuid
+  id               String                     @id @default(uuid()) @db.Uuid
+  guardianUserId   String                     @db.Uuid
+  athleteId        String                     @db.Uuid
   relationshipType String
-  status           GuardianRelationshipStatus  @default(PENDING)
+  status           GuardianRelationshipStatus @default(PENDING)
+  inviteStatus     GuardianInviteStatus       @default(PENDING)
+  invitedByUserId  String?                    @db.Uuid
+  invitedAt        DateTime?
+  acceptedAt       DateTime?
+  revokedAt        DateTime?
   consentGrantedAt DateTime?
   consentRevokedAt DateTime?
-  createdAt        DateTime                    @default(now())
-  updatedAt        DateTime                    @updatedAt
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
 
-  guardian User    @relation("GuardianUser", fields: [guardianUserId], references: [id], onDelete: Cascade)
-  athlete  Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian  User    @relation("GuardianUser", fields: [guardianUserId], references: [id], onDelete: Cascade)
+  invitedBy User?   @relation("GuardianInviter", fields: [invitedByUserId], references: [id], onDelete: SetNull)
+  athlete   Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
 
   @@unique([guardianUserId, athleteId])
+  @@index([athleteId])
+  @@index([invitedByUserId])
 }

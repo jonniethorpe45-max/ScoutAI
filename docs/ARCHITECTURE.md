@@ -62,12 +62,25 @@ Established:
 - Docker Compose for Postgres + Redis
 - CI lint/typecheck/test/build
 
-Deferred (by design):
+## Stage 4 Scope
 
-- Full athlete/recruiter product modules
+Athlete Platform Foundation:
+
+- Expanded athlete domain models (sport/position, physical/academic/recruiting profiles)
+- Owner Passport API (`/athletes/me/*`) + public Passport (`/athletes/public/:slug`)
+- Completeness scoring and publish gates
+- Guardian invite/accept/revoke links
+- Web athlete experience: dashboard, onboarding wizard, Passport editor/preview, settings, public page
+- Self-service `ATHLETE` role grant on first profile create when the user has no roles
+
+Deferred (by design beyond Stage 4):
+
+- Secure media upload / highlight video processing
+- Verified stats and AI performance insights
 - Native live streaming / advanced video processing
 - Production Stripe billing
 - Live AI provider integrations beyond mock adapters
+- Recruiter entitlement-scoped discovery
 
 ## Request Context
 

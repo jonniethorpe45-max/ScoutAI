@@ -31,10 +31,12 @@
 | Edit own account (`PATCH /me`) | **Allow** | **Allow** | **Allow** | **Allow** | **Allow** | **Allow** |
 | View admin system info (`GET /admin/system-info`) | **Deny** | **Deny** | **Deny** | **Deny** | **Deny** | **Allow** |
 | View another user's account | **Deny** | **Restricted** (linked athletes only, **Future**) | **Restricted** (entitled profiles, **Future**) | **Restricted** (roster/org scope, **Future**) | **Restricted** (org members, **Future**) | **Allow** (**Future**) |
-| Create athlete profile | **Own** (**Future**) | **Restricted** (linked minor, **Future**) | **Deny** | **Restricted** (roster, **Future**) | **Restricted** (org, **Future**) | **Allow** (**Future**) |
-| View athlete public profile | **Own** | **Restricted** (linked, **Future**) | **Restricted** (entitled, **Future**) | **Restricted** (org/roster, **Future**) | **Restricted** (org, **Future**) | **Allow** (**Future**) |
-| View athlete restricted contact info | **Own** | **Restricted** (linked minor, **Future**) | **Restricted** (entitlement + consent, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (audit-logged, **Future**) |
-| Manage guardian–athlete link | **Restricted** (invite/approve, **Future**) | **Restricted** (linked athletes, **Future**) | **Deny** | **Deny** | **Restricted** (org policy, **Future**) | **Allow** (**Future**) |
+| Create athlete profile | **Own** | **Deny** (linked-minor create later) | **Deny** | **Deny** | **Deny** | **Allow** |
+| Edit own athlete Passport | **Own** | **Restricted** (linked, partial later) | **Deny** | **Deny** | **Deny** | **Allow** |
+| Publish / unpublish Passport | **Own** | **Deny** (later) | **Deny** | **Deny** | **Deny** | **Allow** |
+| View athlete public profile | **Own** | **Restricted** (linked) | **Restricted** (published + visibility) | **Restricted** (published + visibility) | **Restricted** (published + visibility) | **Allow** |
+| View athlete restricted contact info | **Own** | **Restricted** (linked) | **Restricted** (entitlement + consent, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (audit-logged, **Future**) |
+| Manage guardian–athlete link | **Own** (invite/revoke) | **Restricted** (accept own invite) | **Deny** | **Deny** | **Deny** | **Allow** |
 | Verify recruiter identity | **Deny** | **Deny** | **Deny** | **Deny** | **Deny** | **Future** |
 | Read recruiter private notes | **Deny** | **Deny** | **Owner only** | **Deny** | **Deny** | **Restricted** (support/legal, **Future**) |
 | Write recruiter private notes | **Deny** | **Deny** | **Owner only** (**Future**) | **Deny** | **Deny** | **Deny** |
@@ -58,7 +60,18 @@ Stage 3 enforces authorization for:
 | `GET /health` | Public |
 | `GET /ready` | Public (reports dependency readiness) |
 
-All other rows marked **Future** are architectural placeholders. Do not expose corresponding routes until policies, entitlements, and audit requirements are implemented.
+## Stage 4 Implemented Endpoints
+
+| Endpoint | Required role / policy |
+| --- | --- |
+| `POST /athletes/me` | `ATHLETE` or ScoutAI Admin; **or** user with empty roles (auto-grants `ATHLETE`) |
+| `GET /athletes/me` + owner PATCHes | Owner (or admin) |
+| `POST /athletes/me/publish` | Owner athlete (completeness gate) |
+| `GET /athletes/public/:slug` | Published + visibility policy (owner/guardian/admin bypass) |
+| `GET /sports`, `GET /sports/:code/positions` | Public |
+| Guardian invite/accept/revoke/links | Athlete owner invite/revoke; invited guardian accept |
+
+Rows still marked **Future** elsewhere remain architectural placeholders.
 
 ## Policy Implementation Notes
 

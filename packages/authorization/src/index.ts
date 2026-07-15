@@ -3,6 +3,13 @@ export {
   isScoutAiAdmin,
   assertAuthenticated,
   canViewAdminSystemInfo,
+  canCreateOwnAthleteProfile,
+  canEditOwnAthleteProfile,
+  canViewAthleteOwnerData,
+  canViewPublicAthleteProfile,
+  canManageGuardianLink,
+  canPublishAthleteProfile,
   type AuthorizationSubject,
   type AuthorizationResult,
+  type PublicAthleteViewContext,
 } from './policies';

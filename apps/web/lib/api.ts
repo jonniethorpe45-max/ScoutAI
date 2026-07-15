@@ -44,7 +44,14 @@ export async function apiJson<T>(path: string, init: RequestInit = {}): Promise<
     const message =
       typeof body === 'object' && body !== null && 'message' in body
         ? String((body as { message: unknown }).message)
-        : `Request failed with status ${response.status}`;
+        : typeof body === 'object' &&
+            body !== null &&
+            'error' in body &&
+            typeof (body as { error: unknown }).error === 'object' &&
+            (body as { error: { message?: unknown } }).error !== null &&
+            'message' in (body as { error: { message?: unknown } }).error
+          ? String((body as { error: { message: unknown } }).error.message)
+          : `Request failed with status ${response.status}`;
     throw new ApiError(message, response.status, body);
   }
 
@@ -55,6 +62,7 @@ export interface AuthUser {
   id: string;
   email: string;
   roles: string[];
+  status?: string;
 }
 
 export interface HealthResponse {
@@ -72,22 +80,223 @@ export interface ReadyResponse {
   dependencies?: ReadyDependency[];
 }
 
-export function login(email: string, password: string): Promise<AuthUser> {
-  return apiJson<AuthUser>('/auth/login', {
+export interface SportDto {
+  id: string;
+  code: string;
+  name: string;
+  status: string;
+}
+
+export interface PositionDto {
+  id: string;
+  sportId: string;
+  code: string;
+  name: string;
+  displayOrder: number;
+}
+
+export interface AthleteSportDto {
+  sportId: string;
+  sportCode: string;
+  sportName: string;
+  isPrimary: boolean;
+  isActive: boolean;
+  startYear: number | null;
+}
+
+export interface AthletePositionDto {
+  positionId: string;
+  sportId: string;
+  code: string;
+  name: string;
+  isPrimary: boolean;
+  displayOrder: number;
+}
+
+export interface CompletenessCheck {
+  key: string;
+  label: string;
+  satisfied: boolean;
+  requiredForPublish: boolean;
+}
+
+export interface CompletenessResult {
+  score: number;
+  totalChecks: number;
+  satisfiedChecks: number;
+  readyToPublish: boolean;
+  checks: CompletenessCheck[];
+}
+
+export interface AthleteOwnerView {
+  id: string;
+  userId: string | null;
+  slug: string;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  preferredName: string | null;
+  displayName: string;
+  dateOfBirth: string | null;
+  city: string | null;
+  stateRegion: string | null;
+  countryCode: string;
+  postalCode: string | null;
+  biography: string | null;
+  profileStatus: string;
+  profileVisibility: string;
+  onboardingStage: string;
+  publishedAt: string | null;
+  visibilitySetAt: string | null;
+  schoolNameReported: string | null;
+  teamNameReported: string | null;
+  organizationId: string | null;
+  isMinor: boolean;
+  sports: AthleteSportDto[];
+  positions: AthletePositionDto[];
+  physicalProfile: {
+    heightCm: number | null;
+    weightKg: number | null;
+    updatedAt: string;
+  } | null;
+  academicProfile: {
+    schoolName: string | null;
+    graduationYear: number | null;
+    gpa: number | null;
+    gpaScale: number | null;
+    intendedMajor: string | null;
+    updatedAt: string;
+  } | null;
+  recruitingProfile: {
+    recruitingStatus: string;
+    commitmentStatus: string;
+    committedOrganizationText: string | null;
+    recruitingBiography: string | null;
+    preferredRegions: unknown;
+    preferredCompetitionLevels: unknown;
+    contactPolicy: string;
+    updatedAt: string;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AthletePublicView {
+  id: string;
+  slug: string;
+  displayName: string;
+  preferredName: string | null;
+  city: string | null;
+  stateRegion: string | null;
+  countryCode: string;
+  biography: string | null;
+  profileStatus: string;
+  profileVisibility: string;
+  schoolNameReported: string | null;
+  teamNameReported: string | null;
+  sports: AthleteSportDto[];
+  positions: AthletePositionDto[];
+  physicalProfile: {
+    heightCm: number | null;
+    weightKg: number | null;
+  } | null;
+  academicProfile: {
+    schoolName: string | null;
+    graduationYear: number | null;
+    intendedMajor: string | null;
+  } | null;
+  recruitingProfile: {
+    recruitingStatus: string;
+    commitmentStatus: string;
+    committedOrganizationText: string | null;
+    recruitingBiography: string | null;
+  } | null;
+}
+
+export interface OnboardingStatus {
+  stage: string;
+  completeness: CompletenessResult;
+  isMinor: boolean;
+  minorPolicyNote: string;
+}
+
+export interface PublishResult {
+  published: boolean;
+  profileStatus: string;
+  publishedAt: string | null;
+  completeness: CompletenessResult;
+}
+
+export interface GuardianInviteView {
+  id: string;
+  athleteId: string;
+  guardianUserId: string;
+  relationshipType: string;
+  status: string;
+  inviteStatus: string;
+  invitedAt: string | null;
+}
+
+export interface GuardianAcceptView {
+  id: string;
+  status: string;
+  inviteStatus: string;
+  acceptedAt: string | null;
+}
+
+export interface GuardianRevokeView {
+  id: string;
+  status: string;
+  inviteStatus: string;
+  revokedAt: string | null;
+}
+
+export interface GuardianLinkView {
+  id: string;
+  athleteId: string;
+  guardianUserId: string;
+  relationshipType: string;
+  status: string;
+  inviteStatus: string;
+  invitedAt: string | null;
+  acceptedAt: string | null;
+  revokedAt: string | null;
+  athlete: {
+    id: string;
+    slug: string;
+    displayName: string;
+  };
+  guardianEmail?: string;
+}
+
+export interface GuardianLinksResponse {
+  asGuardian: GuardianLinkView[];
+  asAthleteOwner: GuardianLinkView[];
+}
+
+interface AuthEnvelope {
+  user: AuthUser;
+}
+
+export async function login(email: string, password: string): Promise<AuthUser> {
+  const body = await apiJson<AuthEnvelope>('/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
+  return body.user;
 }
 
-export function register(email: string, password: string): Promise<AuthUser> {
-  return apiJson<AuthUser>('/auth/register', {
+export async function register(email: string, password: string): Promise<AuthUser> {
+  const body = await apiJson<AuthEnvelope>('/auth/register', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
+  return body.user;
 }
 
-export function getMe(): Promise<AuthUser> {
-  return apiJson<AuthUser>('/me');
+export async function getMe(): Promise<AuthUser> {
+  const body = await apiJson<AuthEnvelope>('/me');
+  return body.user;
 }
 
 export function getHealth(): Promise<HealthResponse> {
@@ -100,4 +309,211 @@ export function getReady(): Promise<ReadyResponse> {
 
 export function getApiUrl(): string {
   return API_URL;
+}
+
+export function getMyAthlete(): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me');
+}
+
+export function createMyAthlete(input: {
+  firstName: string;
+  lastName: string;
+  middleName?: string | null;
+  preferredName?: string | null;
+  displayName?: string;
+  dateOfBirth?: string | null;
+  city?: string | null;
+  stateRegion?: string | null;
+  countryCode?: string;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchIdentity(input: Record<string, unknown>): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/identity', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchSport(input: {
+  sportCode: string;
+  isPrimary?: boolean;
+  startYear?: number | null;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/sport', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchPositions(input: {
+  sportCode: string;
+  positions: Array<{
+    positionCode: string;
+    isPrimary?: boolean;
+    displayOrder?: number;
+  }>;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/positions', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchPhysical(input: {
+  heightCm?: number | null;
+  weightKg?: number | null;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/physical', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchAcademic(input: Record<string, unknown>): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/academic', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchRecruiting(input: Record<string, unknown>): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/recruiting', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchBiography(input: { biography?: string | null }): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/biography', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchSchoolTeam(input: {
+  schoolNameReported?: string | null;
+  teamNameReported?: string | null;
+  organizationId?: string | null;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/school-team', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function patchVisibility(input: {
+  profileVisibility: string;
+}): Promise<AthleteOwnerView> {
+  return apiJson<AthleteOwnerView>('/athletes/me/visibility', {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function getCompleteness(): Promise<CompletenessResult> {
+  return apiJson<CompletenessResult>('/athletes/me/completeness');
+}
+
+export function getOnboarding(): Promise<OnboardingStatus> {
+  return apiJson<OnboardingStatus>('/athletes/me/onboarding');
+}
+
+export function advanceOnboarding(stage: string): Promise<OnboardingStatus> {
+  return apiJson<OnboardingStatus>('/athletes/me/onboarding', {
+    method: 'PATCH',
+    body: JSON.stringify({ stage }),
+  });
+}
+
+export function publishAthlete(): Promise<PublishResult> {
+  return apiJson<PublishResult>('/athletes/me/publish', { method: 'POST' });
+}
+
+export function unpublishAthlete(): Promise<PublishResult> {
+  return apiJson<PublishResult>('/athletes/me/unpublish', { method: 'POST' });
+}
+
+export function getSports(): Promise<SportDto[]> {
+  return apiJson<SportDto[]>('/sports');
+}
+
+export function getSportPositions(code: string): Promise<PositionDto[]> {
+  return apiJson<PositionDto[]>(`/sports/${encodeURIComponent(code)}/positions`);
+}
+
+export function getPublicAthlete(slug: string): Promise<AthletePublicView> {
+  return apiJson<AthletePublicView>(`/athletes/public/${encodeURIComponent(slug)}`);
+}
+
+export function inviteGuardian(input: {
+  guardianEmail: string;
+  relationshipType: string;
+  athleteId?: string;
+}): Promise<GuardianInviteView> {
+  return apiJson<GuardianInviteView>('/guardians/invites', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function acceptGuardianInvite(id: string): Promise<GuardianAcceptView> {
+  return apiJson<GuardianAcceptView>(`/guardians/invites/${encodeURIComponent(id)}/accept`, {
+    method: 'POST',
+  });
+}
+
+export function revokeGuardianInvite(id: string): Promise<GuardianRevokeView> {
+  return apiJson<GuardianRevokeView>(`/guardians/invites/${encodeURIComponent(id)}/revoke`, {
+    method: 'POST',
+  });
+}
+
+export function getGuardianLinks(): Promise<GuardianLinksResponse> {
+  return apiJson<GuardianLinksResponse>('/guardians/links');
+}
+
+/** Client-side preview shaping when the profile is not yet published. */
+export function ownerToPublicPreview(owner: AthleteOwnerView): AthletePublicView {
+  return {
+    id: owner.id,
+    slug: owner.slug,
+    displayName: owner.displayName,
+    preferredName: owner.preferredName,
+    city: owner.city,
+    stateRegion: owner.stateRegion,
+    countryCode: owner.countryCode,
+    biography: owner.biography,
+    profileStatus: owner.profileStatus,
+    profileVisibility: owner.profileVisibility,
+    schoolNameReported: owner.schoolNameReported,
+    teamNameReported: owner.teamNameReported,
+    sports: owner.sports,
+    positions: owner.positions,
+    physicalProfile: owner.physicalProfile
+      ? {
+          heightCm: owner.physicalProfile.heightCm,
+          weightKg: owner.physicalProfile.weightKg,
+        }
+      : null,
+    academicProfile: owner.academicProfile
+      ? {
+          schoolName: owner.academicProfile.schoolName,
+          graduationYear: owner.academicProfile.graduationYear,
+          intendedMajor: owner.academicProfile.intendedMajor,
+        }
+      : null,
+    recruitingProfile: owner.recruitingProfile
+      ? {
+          recruitingStatus: owner.recruitingProfile.recruitingStatus,
+          commitmentStatus: owner.recruitingProfile.commitmentStatus,
+          committedOrganizationText: owner.recruitingProfile.committedOrganizationText,
+          recruitingBiography: owner.recruitingProfile.recruitingBiography,
+        }
+      : null,
+  };
 }

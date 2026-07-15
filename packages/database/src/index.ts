@@ -10,6 +10,13 @@ export {
   RecruiterVerificationStatus,
   GuardianRelationshipStatus,
   OrganizationMemberRole,
+  ProfileStatus,
+  ProfileVisibility,
+  SportStatus,
+  OnboardingStage,
+  RecruitingStatus,
+  CommitmentStatus,
+  GuardianInviteStatus,
 } from '@prisma/client';
 
 export type {
@@ -22,6 +29,13 @@ export type {
   Athlete,
   Recruiter,
   GuardianRelationship,
+  Sport,
+  Position,
+  AthleteSport,
+  AthletePosition,
+  AthletePhysicalProfile,
+  AthleteAcademicProfile,
+  AthleteRecruitingProfile,
 } from '@prisma/client';
 
 const globalForPrisma = globalThis as unknown as { scoutaiPrisma?: PrismaClient };

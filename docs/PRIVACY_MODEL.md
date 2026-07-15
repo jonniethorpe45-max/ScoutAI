@@ -30,8 +30,8 @@ ScoutAI serves United States high school athletes (many of whom are minors), gua
 ### 3. Guardian relationships
 
 - A **Guardian** account links to one or more **Athlete** accounts through an explicit relationship record (not inferred from shared email).
-- Link creation requires approval from both sides or org-mediated invitation (**Future** UX).
-- Guardians can view and manage restricted settings for linked minors within policy bounds (**Future**).
+- Link creation uses athlete invite + guardian accept (Stage 4), or future org-mediated invitation UX.
+- Guardians can view linked athlete public Passports when the relationship is `ACTIVE`; broader guardian owner-edit is **Future**.
 - Athletes approaching majority may request independent control of their account per policy and law (**Future**).
 
 ### 4. Profile visibility foundation
@@ -45,7 +45,7 @@ Profile data is classified into visibility tiers at the schema and API layer:
 | **Restricted** | Email, phone, address, guardian contact | Owner, linked guardian, entitled verified recruiter |
 | **Private** | Recruiter private notes, internal admin flags | Owner only (see below) |
 
-Stage 3 establishes user/role/org schema foundations; visibility enforcement on athlete profiles is **Future** (Stage 4+).
+Stage 3 establishes user/role/org schema foundations. **Stage 4** enforces Passport visibility on publish + public slug access (`PRIVATE` / `CONNECTIONS` / `PUBLIC`) and strips restricted fields from `AthletePublicView`.
 
 ### 5. Future deletion and export
 

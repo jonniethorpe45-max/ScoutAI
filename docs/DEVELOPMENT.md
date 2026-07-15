@@ -22,16 +22,15 @@ ScoutAI/
 │   ├── api/          NestJS HTTP API
 │   └── worker/       BullMQ job processors
 ├── packages/
-│   ├── database/     Prisma schema + client
+│   ├── database/     Prisma schema + client (migrations under prisma/)
 │   ├── auth/         Session + password utilities
 │   ├── config/       Environment validation
 │   ├── ai/           AI provider abstraction (mock in Stage 3)
 │   ├── live/         Live provider adapters
 │   ├── video/        Video provider stubs (Stage 3)
 │   └── …             contracts, ui, testing helpers
-├── prisma/           Migrations + seed
 ├── docs/             Architecture and policy docs
-├── docker-compose.yml
+├── infrastructure/   Docker Compose, scripts
 ├── turbo.json
 └── pnpm-workspace.yaml
 ```
@@ -175,4 +174,18 @@ Read before implementing features:
 
 - `DEPLOYMENT.md` — Docker and CI
 - `TESTING.md` — test commands and required cases
-- `AI_HANDOFF.md` — Stage 4 builder instructions
+- `AI_HANDOFF.md` — Stage 5 builder instructions
+- `ATHLETE_PLATFORM.md` — Stage 4 athlete surfaces and media decision
+
+## Athlete web routes (Stage 4)
+
+| Route | Purpose |
+| --- | --- |
+| `/app/athlete/dashboard` | Completeness + Passport summary |
+| `/app/athlete/onboarding` | Resumable wizard |
+| `/app/athlete/passport` | Section editor |
+| `/app/athlete/passport/preview` | Owner public-shaped preview |
+| `/app/athlete/settings` | Visibility, publish, guardian invite |
+| `/athletes/[slug]` | Public Passport |
+
+Photo uploads are deferred; UI shows a placeholder avatar only.

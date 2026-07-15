@@ -41,7 +41,8 @@ ScoutAI/
 │   ├── api/          # NestJS HTTP API (@scoutai/api)
 │   └── worker/       # BullMQ worker (@scoutai/worker)
 ├── packages/         # Shared TypeScript packages
-├── prisma/           # Migrations + seed
+│   └── database/
+│       └── prisma/   # Migrations + seed
 ├── docs/             # Architecture, security, testing guides
 ├── infrastructure/   # Docker Compose, scripts
 ├── turbo.json

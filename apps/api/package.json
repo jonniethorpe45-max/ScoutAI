@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "echo ok",
+    "lint": "eslint src test",
     "test": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.ts"
   },
@@ -19,6 +19,7 @@
     "@scoutai/auth": "workspace:*",
     "@scoutai/authorization": "workspace:*",
     "@scoutai/config": "workspace:*",
+    "@scoutai/contracts": "workspace:*",
     "@scoutai/database": "workspace:*",
     "@scoutai/domain": "workspace:*",
     "@scoutai/observability": "workspace:*",
