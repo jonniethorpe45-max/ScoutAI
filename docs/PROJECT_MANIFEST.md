@@ -2,7 +2,13 @@
 
 ## Project Status
 
-**Stage 3 — Repository Foundation and Build Bootstrap** (complete; published to standalone `jonniethorpe45-max/ScoutAI` repository root).
+**Stage 4 — Athlete Platform Foundation** (in progress).
+
+**Stage 3 verified base commit:** `3c032d62990402ebf72c4736cf8257ef85bef681` (`main` at Stage 4 start).
+
+**Stage 4 branch:** `cursor/stage4-athlete-platform-foundation-b61c`
+
+**Prior:** Stage 3 — Repository Foundation (complete on `main`).
 
 **Completion report:** [STAGE3_COMPLETION_REPORT.md](./STAGE3_COMPLETION_REPORT.md)
 
