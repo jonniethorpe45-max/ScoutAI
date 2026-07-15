@@ -517,3 +517,349 @@ export function ownerToPublicPreview(owner: AthleteOwnerView): AthletePublicView
       : null,
   };
 }
+
+/* —— Stage 5: seasons, games, statistics, performance —— */
+
+export interface AthleteSeasonDto {
+  id: string;
+  athleteId: string;
+  seasonId: string;
+  sportId: string;
+  sportCode: string;
+  seasonName: string;
+  seasonYear: number;
+  seasonStatus: string;
+  selfReportedTeamName: string | null;
+  jerseyNumber: string | null;
+  primaryPositionId: string | null;
+  organizationId: string | null;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StatisticDefinitionDto {
+  id: string;
+  sportId: string;
+  code: string;
+  name: string;
+  shortName: string;
+  description: string | null;
+  dataType: string;
+  unit: string | null;
+  aggregationType: string;
+  category: string;
+  higherIsBetter: boolean | null;
+  active: boolean;
+  displayOrder: number;
+  derived: boolean;
+}
+
+export interface GameStatisticDto {
+  statisticCode: string;
+  name: string;
+  shortName: string;
+  category: string;
+  unit: string | null;
+  numericValue: number;
+  sourceType: string;
+  verificationStatus: string;
+  derived?: boolean;
+}
+
+export interface GameListItemDto {
+  id: string;
+  seasonId: string;
+  scheduledStart: string;
+  timezone: string;
+  status: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  opponentName: string | null;
+  homeAway: 'HOME' | 'AWAY' | 'UNKNOWN';
+  locationName: string | null;
+  homeScore: number | null;
+  awayScore: number | null;
+  result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+  participationStatus: string | null;
+  hasStatistics: boolean;
+}
+
+export interface GameDetailDto extends GameListItemDto {
+  city: string | null;
+  stateRegion: string | null;
+  countryCode: string | null;
+  participationId: string | null;
+  jerseyNumber: string | null;
+  starter: boolean | null;
+  statistics: GameStatisticDto[];
+  possibleDuplicates?: GameListItemDto[];
+  videoPlaceholder: string;
+}
+
+export interface CreateGameResult {
+  game: GameDetailDto;
+  possibleDuplicates: GameListItemDto[];
+  duplicateWarning: boolean;
+}
+
+export interface SeasonAggregateDto {
+  seasonId: string;
+  athleteSeasonId: string | null;
+  totals: GameStatisticDto[];
+  gamesPlayed: number;
+}
+
+export interface GameByGameStatRowDto {
+  gameId: string;
+  scheduledStart: string;
+  opponentName: string | null;
+  result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+  statistics: GameStatisticDto[];
+}
+
+export interface PerformanceTestDefinitionDto {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  measurementType: string;
+  unit: string;
+  lowerIsBetter: boolean;
+  sportId: string | null;
+  displayOrder: number;
+}
+
+export interface PerformanceResultDto {
+  id: string;
+  testCode: string;
+  testName: string;
+  unit: string;
+  numericValue: number;
+  performedAt: string;
+  eventName: string | null;
+  locationName: string | null;
+  sourceType: string;
+  verificationStatus: string;
+  sourceLabel: string;
+  notes: string | null;
+}
+
+export interface PersonalBestDto {
+  testCode: string;
+  testName: string;
+  unit: string;
+  lowerIsBetter: boolean;
+  bestAvailable: PerformanceResultDto | null;
+  bestVerified: PerformanceResultDto | null;
+}
+
+export interface PublicPerformanceSection {
+  seasonSummaries: Array<{
+    seasonName: string;
+    seasonYear: number;
+    totals: Array<{
+      code: string;
+      name: string;
+      shortName: string;
+      value: number;
+      unit: string | null;
+      sourceLabel: string;
+      verificationStatus: string;
+    }>;
+  }>;
+  recentGames: Array<{
+    scheduledStart: string;
+    opponentName: string | null;
+    homeAway: 'HOME' | 'AWAY' | 'UNKNOWN';
+    result: 'WIN' | 'LOSS' | 'TIE' | 'UNKNOWN' | null;
+    homeScore: number | null;
+    awayScore: number | null;
+  }>;
+  performanceBests: Array<{
+    testCode: string;
+    testName: string;
+    unit: string;
+    value: number | null;
+    sourceLabel: string | null;
+    verificationStatus: string | null;
+    verifiedBestAvailable: boolean;
+  }>;
+}
+
+export function listMyAthleteSeasons(): Promise<AthleteSeasonDto[]> {
+  return apiJson<AthleteSeasonDto[]>('/athletes/me/seasons');
+}
+
+export function createAthleteSeasonCatalog(input: {
+  sportCode: string;
+  name: string;
+  year: number;
+  startDate?: string | null;
+  endDate?: string | null;
+  status?: string;
+}): Promise<AthleteSeasonDto> {
+  return apiJson<AthleteSeasonDto>('/athletes/me/seasons/catalog', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function createAthleteSeason(input: {
+  seasonId: string;
+  selfReportedTeamName?: string | null;
+  jerseyNumber?: string | null;
+  primaryPositionId?: string | null;
+  organizationId?: string | null;
+  status?: string;
+}): Promise<AthleteSeasonDto> {
+  return apiJson<AthleteSeasonDto>('/athletes/me/seasons', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function listMyGames(seasonId?: string): Promise<GameListItemDto[]> {
+  const query = seasonId ? `?seasonId=${encodeURIComponent(seasonId)}` : '';
+  return apiJson<GameListItemDto[]>(`/athletes/me/games${query}`);
+}
+
+export function createGame(input: {
+  seasonId: string;
+  scheduledStart: string;
+  timezone?: string;
+  status?: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  athleteTeamSide?: 'HOME' | 'AWAY' | 'UNKNOWN';
+  locationName?: string | null;
+  city?: string | null;
+  stateRegion?: string | null;
+  countryCode?: string | null;
+  homeScore?: number | null;
+  awayScore?: number | null;
+  participationStatus?: string;
+  jerseyNumber?: string | null;
+  starter?: boolean | null;
+  athleteSeasonId?: string | null;
+  forceDuplicate?: boolean;
+}): Promise<CreateGameResult> {
+  return apiJson<CreateGameResult>('/athletes/me/games', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function getGame(id: string): Promise<GameDetailDto> {
+  return apiJson<GameDetailDto>(`/athletes/me/games/${encodeURIComponent(id)}`);
+}
+
+export function updateGame(
+  id: string,
+  input: {
+    scheduledStart?: string;
+    timezone?: string;
+    status?: string;
+    homeTeamName?: string;
+    awayTeamName?: string;
+    locationName?: string | null;
+    city?: string | null;
+    stateRegion?: string | null;
+    countryCode?: string | null;
+    homeScore?: number | null;
+    awayScore?: number | null;
+  },
+): Promise<GameDetailDto> {
+  return apiJson<GameDetailDto>(`/athletes/me/games/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function upsertParticipation(
+  id: string,
+  input: {
+    participationStatus: string;
+    jerseyNumber?: string | null;
+    starter?: boolean | null;
+    athleteSeasonId?: string | null;
+    athleteTeamSide?: 'HOME' | 'AWAY' | 'UNKNOWN';
+  },
+): Promise<GameDetailDto> {
+  return apiJson<GameDetailDto>(
+    `/athletes/me/games/${encodeURIComponent(id)}/participation`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    },
+  );
+}
+
+export function listSportStatistics(sportCode: string): Promise<StatisticDefinitionDto[]> {
+  return apiJson<StatisticDefinitionDto[]>(
+    `/sports/${encodeURIComponent(sportCode)}/statistics`,
+  );
+}
+
+export function getGameStatistics(gameId: string): Promise<GameStatisticDto[]> {
+  return apiJson<GameStatisticDto[]>(
+    `/athletes/me/games/${encodeURIComponent(gameId)}/statistics`,
+  );
+}
+
+export function putGameStatistics(
+  gameId: string,
+  input: { statistics: Array<{ statisticCode: string; numericValue: number }> },
+): Promise<GameStatisticDto[]> {
+  return apiJson<GameStatisticDto[]>(
+    `/athletes/me/games/${encodeURIComponent(gameId)}/statistics`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    },
+  );
+}
+
+export function getSeasonAggregates(athleteSeasonId: string): Promise<SeasonAggregateDto> {
+  return apiJson<SeasonAggregateDto>(
+    `/athletes/me/seasons/${encodeURIComponent(athleteSeasonId)}/aggregates`,
+  );
+}
+
+export function getSeasonGameStats(athleteSeasonId: string): Promise<GameByGameStatRowDto[]> {
+  return apiJson<GameByGameStatRowDto[]>(
+    `/athletes/me/seasons/${encodeURIComponent(athleteSeasonId)}/game-stats`,
+  );
+}
+
+export function listPerformanceDefinitions(): Promise<PerformanceTestDefinitionDto[]> {
+  return apiJson<PerformanceTestDefinitionDto[]>('/athletes/me/performance/definitions');
+}
+
+export function createPerformanceResult(input: {
+  testCode: string;
+  numericValue: number;
+  performedAt: string;
+  eventName?: string | null;
+  locationName?: string | null;
+  notes?: string | null;
+}): Promise<PerformanceResultDto> {
+  return apiJson<PerformanceResultDto>('/athletes/me/performance/results', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  });
+}
+
+export function listPerformanceResults(): Promise<PerformanceResultDto[]> {
+  return apiJson<PerformanceResultDto[]>('/athletes/me/performance/results');
+}
+
+export function listPerformanceBests(): Promise<PersonalBestDto[]> {
+  return apiJson<PersonalBestDto[]>('/athletes/me/performance/bests');
+}
+
+export function getPublicPerformance(slug: string): Promise<PublicPerformanceSection> {
+  return apiJson<PublicPerformanceSection>(
+    `/athletes/public/${encodeURIComponent(slug)}/performance`,
+  );
+}

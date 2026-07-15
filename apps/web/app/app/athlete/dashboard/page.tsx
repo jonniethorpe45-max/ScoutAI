@@ -178,6 +178,16 @@ export default function AthleteDashboardPage() {
           <Link className="button buttonSecondary" href="/app/athlete/passport">
             Edit Passport
           </Link>
+          {isPublished ? (
+            <>
+              <Link className="button buttonSecondary" href="/app/athlete/games">
+                Games
+              </Link>
+              <Link className="button buttonSecondary" href="/app/athlete/performance">
+                Performance
+              </Link>
+            </>
+          ) : null}
           <Link className="button buttonSecondary" href="/app/athlete/settings">
             Settings
           </Link>

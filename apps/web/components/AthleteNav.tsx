@@ -8,6 +8,9 @@ const LINKS = [
   { href: '/app/athlete/onboarding', label: 'Onboarding' },
   { href: '/app/athlete/passport', label: 'Passport' },
   { href: '/app/athlete/passport/preview', label: 'Preview' },
+  { href: '/app/athlete/games', label: 'Games' },
+  { href: '/app/athlete/stats', label: 'Stats' },
+  { href: '/app/athlete/performance', label: 'Performance' },
   { href: '/app/athlete/settings', label: 'Settings' },
 ];
 

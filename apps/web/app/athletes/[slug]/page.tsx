@@ -4,12 +4,27 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { EmptyState, StatusBadge } from '@scoutai/ui';
-import { ApiError, getPublicAthlete, type AthletePublicView } from '@/lib/api';
+import {
+  ApiError,
+  getPublicAthlete,
+  getPublicPerformance,
+  type AthletePublicView,
+  type PublicPerformanceSection,
+} from '@/lib/api';
+
+function formatGameDate(iso: string): string {
+  try {
+    return new Date(iso).toLocaleDateString(undefined, { dateStyle: 'medium' });
+  } catch {
+    return iso;
+  }
+}
 
 export default function PublicAthletePage() {
   const params = useParams<{ slug: string }>();
   const slug = params?.slug;
   const [view, setView] = useState<AthletePublicView | null>(null);
+  const [performance, setPerformance] = useState<PublicPerformanceSection | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [forbidden, setForbidden] = useState(false);
 
@@ -20,9 +35,13 @@ export default function PublicAthletePage() {
         return;
       }
       try {
-        const publicView = await getPublicAthlete(slug);
+        const [publicView, publicPerformance] = await Promise.all([
+          getPublicAthlete(slug),
+          getPublicPerformance(slug),
+        ]);
         if (!cancelled) {
           setView(publicView);
+          setPerformance(publicPerformance);
         }
       } catch (err) {
         if (cancelled) {
@@ -55,7 +74,7 @@ export default function PublicAthletePage() {
     );
   }
 
-  if (!view) {
+  if (!view || !performance) {
     return (
       <main className="wideMain">
         <div className="card">
@@ -67,6 +86,7 @@ export default function PublicAthletePage() {
 
   const primarySport = view.sports.find((s) => s.isPrimary) ?? view.sports[0];
   const primaryPosition = view.positions.find((p) => p.isPrimary) ?? view.positions[0];
+  const shownBests = performance.performanceBests.filter((b) => b.value != null);
 
   return (
     <main className="wideMain">
@@ -197,11 +217,72 @@ export default function PublicAthletePage() {
       </div>
 
       <div className="sectionBlock">
-        <h2>Stats</h2>
-        <EmptyState
-          title="No stats yet"
-          description="Verified season and career stats will appear here in a later stage."
-        />
+        <h2>Season Statistics</h2>
+        {performance.seasonSummaries.length === 0 ? (
+          <EmptyState
+            title="No public game statistics have been added yet."
+            description="Totals appear here after the athlete logs and shares game statistics."
+          />
+        ) : (
+          performance.seasonSummaries.map((season) => (
+            <div key={`${season.seasonName}-${season.seasonYear}`} style={{ marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+                {season.seasonName} ({season.seasonYear})
+              </h3>
+              <ul className="metaList">
+                {season.totals.map((total) => (
+                  <li key={total.code}>
+                    <span className="metaLabel">
+                      {total.name}
+                      {total.unit ? ` (${total.unit})` : ''}
+                    </span>
+                    <span className="metaValue">
+                      {total.value} · {total.sourceLabel}
+                      {total.verificationStatus === 'VERIFIED' ? '' : ' · unverified'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="sectionBlock">
+        <h2>Recent Games</h2>
+        {performance.recentGames.length === 0 ? (
+          <EmptyState title="No recent games" description="Logged games will appear here." />
+        ) : (
+          <table className="dataTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Result</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {performance.recentGames.map((game, index) => (
+                <tr key={`${game.scheduledStart}-${index}`}>
+                  <td>{formatGameDate(game.scheduledStart)}</td>
+                  <td>
+                    {game.opponentName ?? '—'}
+                    {game.homeAway !== 'UNKNOWN' ? (
+                      <span className="mutedNote"> ({game.homeAway.toLowerCase()})</span>
+                    ) : null}
+                  </td>
+                  <td>{game.result ?? '—'}</td>
+                  <td>
+                    {game.homeScore != null && game.awayScore != null
+                      ? `${game.homeScore}–${game.awayScore}`
+                      : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       <div className="sectionBlock">
@@ -214,10 +295,29 @@ export default function PublicAthletePage() {
 
       <div className="sectionBlock">
         <h2>Performance</h2>
-        <EmptyState
-          title="No performance insights"
-          description="AI performance summaries are deferred beyond Stage 4."
-        />
+        {shownBests.length === 0 ? (
+          <EmptyState
+            title="No verified performance result is available yet."
+            description="Self-reported or verified personal bests will appear here when shared."
+          />
+        ) : (
+          <ul className="metaList">
+            {shownBests.map((best) => (
+              <li key={best.testCode}>
+                <span className="metaLabel">
+                  {best.testName}
+                  {best.unit ? ` (${best.unit})` : ''}
+                </span>
+                <span className="metaValue">
+                  {best.value}
+                  {best.verifiedBestAvailable
+                    ? ' · verified'
+                    : ` · ${best.sourceLabel ?? 'Self Reported'} · not verified`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <p className="footerNote">Public Passport · email, date of birth, and guardian details are never shown here.</p>
