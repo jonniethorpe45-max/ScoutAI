@@ -2,11 +2,12 @@
 
 ## Project Status
 
-**Stage 4 — Athlete Platform Foundation** (implementation complete on branch; verification pending gate results).
+**Stage 4 — Athlete Platform Foundation** (**CI green** on PR #5; merging to `main`).
 
-**Stage 3 verified base commit:** `3c032d62990402ebf72c4736cf8257ef85bef681` (`main` at Stage 4 start).
-
-**Stage 4 branch:** `cursor/stage4-athlete-platform-foundation-b61c`
+**Stage 3 verified base commit:** `3c032d62990402ebf72c4736cf8257ef85bef681`  
+**Stage 4 branch:** `cursor/stage4-athlete-platform-foundation-b61c`  
+**Stage 4 PR:** https://github.com/jonniethorpe45-max/ScoutAI/pull/5  
+**CI (pre-merge):** https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447058705 — **success**
 
 **Prior:** Stage 3 — Repository Foundation (complete on `main`).
 
@@ -27,8 +28,9 @@
 - Web athlete experience (dashboard, onboarding, Passport, settings, public slug)
 - `createMine` grants `ATHLETE` when user has no roles
 - ESLint hardening (root flat config + typescript-eslint)
-- Docs: `ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, Stage 4 completion draft
+- Docs: `ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, Stage 4 completion report
 - Integration + E2E-ish workflow tests; completeness unit tests
+- Stage 3 regression suite retained and passing (auth/health/admin integration tests)
 
 ## Current Architecture
 
@@ -55,15 +57,16 @@ Key variables (see `.env.example`):
 
 ## Test Status
 
-Local gate runs on 2026-07-15 (Stage 4 branch):
+Local + CI gates on 2026-07-15 (Stage 4 PR #5):
 
 | Command | Result |
 | --- | --- |
 | `pnpm lint` (`eslint .`) | Pass |
 | `pnpm typecheck` | Pass (27 tasks) |
 | `pnpm test` | Pass |
-| `pnpm test:integration` | Pass — API 17/17, worker 2/2 |
-| `pnpm build` | Pass (web build forces `NODE_ENV=production`) |
+| `pnpm test:integration` | Pass — API 17/17 (Stage 3 + Stage 4), worker 2/2 |
+| `pnpm build` | Pass (`NODE_ENV=production` for Next) |
+| GitHub Actions CI | Pass |
 
 ## ESLint limitations (documented)
 
@@ -78,6 +81,7 @@ Local gate runs on 2026-07-15 (Stage 4 branch):
 2. Browser Playwright E2E not wired; API workflow tests cover Stage 4 §27 flow.
 3. Secure media upload deferred (placeholder avatar only).
 4. `CONNECTIONS` visibility allows any authenticated user pending recruiter entitlements.
+5. Minor-athlete legal/compliance review required before production PII collection.
 
 ## Active Risks
 
@@ -86,6 +90,10 @@ Local gate runs on 2026-07-15 (Stage 4 branch):
 - Media and stats stages must not leak restricted fields into public mappers.
 
 ## Pending Work (Stage 5+)
+
+**Stage 5 is not authorized until Stage 4 closure report is reviewed.**
+
+Suggested later themes:
 
 - Secure media upload + highlight video
 - Verified stats / performance insights
