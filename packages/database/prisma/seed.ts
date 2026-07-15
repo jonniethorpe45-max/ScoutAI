@@ -1,5 +1,11 @@
 import { createHash, randomBytes } from 'node:crypto';
-import { PrismaClient, UserRoleType, OrganizationType, MembershipStatus } from '@prisma/client';
+import {
+  PrismaClient,
+  UserRoleType,
+  OrganizationType,
+  MembershipStatus,
+  OrganizationMemberRole,
+} from '@prisma/client';
 import { Argon2PasswordHasher } from '@scoutai/auth';
 
 const prisma = new PrismaClient();
@@ -51,6 +57,24 @@ async function main() {
     roles: [UserRoleType.ATHLETE],
   });
 
+  const guardianUser = await upsertUser({
+    email: 'guardian@scoutai.dev',
+    password: 'GuardianPass1!',
+    roles: [UserRoleType.GUARDIAN],
+  });
+
+  const coachUser = await upsertUser({
+    email: 'coach@scoutai.dev',
+    password: 'CoachPass1!',
+    roles: [UserRoleType.COACH],
+  });
+
+  const orgAdminUser = await upsertUser({
+    email: 'orgadmin@scoutai.dev',
+    password: 'OrgAdminPass1!',
+    roles: [UserRoleType.ORGANIZATION_ADMIN],
+  });
+
   const recruiterUser = await upsertUser({
     email: 'recruiter@scoutai.dev',
     password: 'RecruiterPass1!',
@@ -72,26 +96,79 @@ async function main() {
     },
   });
 
-  await prisma.organizationMember.upsert({
-    where: {
-      organizationId_userId: { organizationId: org.id, userId: athleteUser.id },
-    },
-    update: { status: MembershipStatus.ACTIVE },
-    create: {
-      organizationId: org.id,
-      userId: athleteUser.id,
-      role: 'MEMBER',
-      status: MembershipStatus.ACTIVE,
-    },
-  });
+  for (const member of [
+    { userId: athleteUser.id, role: OrganizationMemberRole.MEMBER },
+    { userId: coachUser.id, role: OrganizationMemberRole.COACH },
+    { userId: orgAdminUser.id, role: OrganizationMemberRole.ADMIN },
+  ]) {
+    await prisma.organizationMember.upsert({
+      where: {
+        organizationId_userId: { organizationId: org.id, userId: member.userId },
+      },
+      update: { status: MembershipStatus.ACTIVE, role: member.role },
+      create: {
+        organizationId: org.id,
+        userId: member.userId,
+        role: member.role,
+        status: MembershipStatus.ACTIVE,
+      },
+    });
+  }
 
-  await prisma.athlete.upsert({
+  const athlete = await prisma.athlete.upsert({
     where: { userId: athleteUser.id },
-    update: { displayName: 'Demo Athlete' },
+    update: {
+      displayName: 'Demo Athlete',
+      sport: 'football',
+      position: 'WR',
+      graduationYear: 2027,
+      highSchoolName: 'North Field Demo High School',
+      heightInches: 72,
+      weightLbs: 185,
+      bio: 'Synthetic Stage 4 demo athlete — not a real person.',
+      contactEmail: 'athlete@scoutai.dev',
+      contactPhone: '555-0100',
+      city: 'Austin',
+      state: 'TX',
+    },
     create: {
       userId: athleteUser.id,
       displayName: 'Demo Athlete',
-      dateOfBirth: null,
+      sport: 'football',
+      position: 'WR',
+      graduationYear: 2027,
+      highSchoolName: 'North Field Demo High School',
+      heightInches: 72,
+      weightLbs: 185,
+      bio: 'Synthetic Stage 4 demo athlete — not a real person.',
+      contactEmail: 'athlete@scoutai.dev',
+      contactPhone: '555-0100',
+      city: 'Austin',
+      state: 'TX',
+    },
+  });
+
+  await prisma.guardianRelationship.upsert({
+    where: {
+      guardianUserId_athleteId: {
+        guardianUserId: guardianUser.id,
+        athleteId: athlete.id,
+      },
+    },
+    update: {
+      status: 'ACTIVE',
+      relationshipType: 'parent',
+      invitedByUserId: athleteUser.id,
+      consentGrantedAt: new Date(),
+      consentRevokedAt: null,
+    },
+    create: {
+      guardianUserId: guardianUser.id,
+      athleteId: athlete.id,
+      relationshipType: 'parent',
+      status: 'ACTIVE',
+      invitedByUserId: athleteUser.id,
+      consentGrantedAt: new Date(),
     },
   });
 
@@ -117,21 +194,27 @@ async function main() {
       targetId: null,
       requestId: `seed-${randomBytes(4).toString('hex')}`,
       metadata: {
+        stage: 4,
         adminId: admin.id,
         athleteId: athleteUser.id,
+        guardianId: guardianUser.id,
+        coachId: coachUser.id,
+        orgAdminId: orgAdminUser.id,
         recruiterId: recruiterUser.id,
         organizationId: org.id,
-        note: 'Synthetic development seed — not real persons.',
+        note: 'Synthetic development seed — not real persons / not minors.',
       },
     },
   });
 
-  // Touch createHash so unused import lint stays quiet if tooling checks.
   createHash('sha256').update('scoutai-seed').digest('hex');
 
-  console.log('Seed complete:');
+  console.log('Seed complete (Stage 4):');
   console.log('  admin@scoutai.dev / AdminPass1! (SCOUTAI_ADMIN)');
   console.log('  athlete@scoutai.dev / AthletePass1! (ATHLETE)');
+  console.log('  guardian@scoutai.dev / GuardianPass1! (GUARDIAN)');
+  console.log('  coach@scoutai.dev / CoachPass1! (COACH)');
+  console.log('  orgadmin@scoutai.dev / OrgAdminPass1! (ORGANIZATION_ADMIN)');
   console.log('  recruiter@scoutai.dev / RecruiterPass1! (RECRUITER)');
 }
 

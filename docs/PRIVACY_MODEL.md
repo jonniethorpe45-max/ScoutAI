@@ -41,11 +41,11 @@ Profile data is classified into visibility tiers at the schema and API layer:
 | Tier | Examples | Default visibility |
 | --- | --- | --- |
 | **Public** | Sport, position, graduation year, public stats summaries | Entitled viewers per product rules |
-| **Org** | Roster status, coach notes (non-recruiter) | Organization members |
-| **Restricted** | Email, phone, address, guardian contact | Owner, linked guardian, entitled verified recruiter |
+| **Org** | Roster status, coach notes (non-recruiter) | Organization members (coach/admin) |
+| **Restricted** | Email, phone, address, guardian contact | Owner, linked guardian, audit-logged admin |
 | **Private** | Recruiter private notes, internal admin flags | Owner only (see below) |
 
-Stage 3 establishes user/role/org schema foundations; visibility enforcement on athlete profiles is **Future** (Stage 4+).
+Stage 4 enforces these tiers on `GET /athletes/:id` via `@scoutai/authorization` `resolveAthleteProfileAccess`. Recruiter public-field reads use a Stage 4 role entitlement hook; verified contact reveal remains **Future**.
 
 ### 5. Future deletion and export
 

@@ -19,6 +19,7 @@
     "@scoutai/auth": "workspace:*",
     "@scoutai/authorization": "workspace:*",
     "@scoutai/config": "workspace:*",
+    "@scoutai/contracts": "workspace:*",
     "@scoutai/database": "workspace:*",
     "@scoutai/domain": "workspace:*",
     "@scoutai/observability": "workspace:*",

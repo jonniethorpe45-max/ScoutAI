@@ -44,6 +44,9 @@ importers:
       '@scoutai/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@scoutai/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@scoutai/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -329,6 +332,9 @@ importers:
       '@scoutai/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@scoutai/domain':
+        specifier: workspace:*
+        version: link:../domain
       zod:
         specifier: ^3.24.1
         version: 3.25.76

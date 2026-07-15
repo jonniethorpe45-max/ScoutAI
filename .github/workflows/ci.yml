@@ -79,3 +79,5 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          NODE_ENV: production
