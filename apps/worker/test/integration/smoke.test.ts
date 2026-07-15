@@ -1,8 +1,9 @@
-import { config } from 'dotenv';
+import { config as loadDotenv } from 'dotenv';
 import { resolve } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { Queue, QueueEvents } from 'bullmq';
 import Redis from 'ioredis';
+import { resetEnvCache } from '@scoutai/config';
 import {
   createRedisConnection,
   createSmokeWorker,
@@ -12,7 +13,8 @@ import {
   SYSTEM_QUEUE,
 } from '../../src/main';
 
-config({ path: resolve(process.cwd(), '../../.env') });
+loadDotenv({ path: resolve(process.cwd(), '../../.env') });
+resetEnvCache();
 
 describe('system.smoke integration', () => {
   const connectionOptions = getRedisConnectionOptions();
