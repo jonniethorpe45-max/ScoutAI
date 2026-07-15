@@ -13,8 +13,9 @@
 | --- | --- |
 | **Starting commit (Stage 3 verified)** | `3c032d62990402ebf72c4736cf8257ef85bef681` |
 | **Stage 4 branch** | `cursor/stage4-athlete-platform-foundation-b61c` |
-| **Latest commit** | `8cb3cfc45230f1bdf765c8b17b49eb566cf84373` |
+| **Latest commit** | `40bdf9f732c99a3c884d894b741bc2e4eba7c9bb` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
+| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/5 |
 
 Stage 3 regression suite was run on the verified base before implementation (integration API 11/11, worker 2/2, build, lint). Starting SHA recorded in `docs/PROJECT_MANIFEST.md`.
 
