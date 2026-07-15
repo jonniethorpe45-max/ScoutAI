@@ -2,12 +2,17 @@
 
 ## Project Status
 
-**Stage 4 — Athlete Platform Foundation** (**CI green** on PR #5; merging to `main`).
+**Stage 4 — Athlete Platform Foundation** — **merged to `main` and closed.**
 
-**Stage 3 verified base commit:** `3c032d62990402ebf72c4736cf8257ef85bef681`  
-**Stage 4 branch:** `cursor/stage4-athlete-platform-foundation-b61c`  
-**Stage 4 PR:** https://github.com/jonniethorpe45-max/ScoutAI/pull/5  
-**CI (pre-merge):** https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447058705 — **success**
+| Field | Value |
+| --- | --- |
+| **Stage 3 verified base** | `3c032d62990402ebf72c4736cf8257ef85bef681` |
+| **Stage 4 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/5 — **MERGED** |
+| **Merged commit (main)** | `6a292854e878bed420a9122dae34b4071162a654` |
+| **PR tip (pre-merge)** | `d60e58b96cb4023cc4110a1e2915d5768540871c` |
+| **CI (PR #5, final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447426192 — **success** |
+| **CI (main after merge)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102 — **success** |
+| **Closure report** | [STAGE4_CLOSURE_REPORT.md](./STAGE4_CLOSURE_REPORT.md) |
 
 **Prior:** Stage 3 — Repository Foundation (complete on `main`).
 
@@ -28,9 +33,9 @@
 - Web athlete experience (dashboard, onboarding, Passport, settings, public slug)
 - `createMine` grants `ATHLETE` when user has no roles
 - ESLint hardening (root flat config + typescript-eslint)
-- Docs: `ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, Stage 4 completion report
+- Docs: `ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, Stage 4 completion + closure reports
 - Integration + E2E-ish workflow tests; completeness unit tests
-- Stage 3 regression suite retained and passing (auth/health/admin integration tests)
+- Stage 3 regression suite retained and passing (auth/health/admin integration tests — 11/11 in `api.integration.test.ts`)
 
 ## Current Architecture
 
@@ -57,7 +62,7 @@ Key variables (see `.env.example`):
 
 ## Test Status
 
-Local + CI gates on 2026-07-15 (Stage 4 PR #5):
+Local + CI gates on 2026-07-15 (Stage 4 on `main`):
 
 | Command | Result |
 | --- | --- |
@@ -66,7 +71,7 @@ Local + CI gates on 2026-07-15 (Stage 4 PR #5):
 | `pnpm test` | Pass |
 | `pnpm test:integration` | Pass — API 17/17 (Stage 3 + Stage 4), worker 2/2 |
 | `pnpm build` | Pass (`NODE_ENV=production` for Next) |
-| GitHub Actions CI | Pass |
+| GitHub Actions CI (`main`) | Pass |
 
 ## ESLint limitations (documented)
 
@@ -91,7 +96,7 @@ Local + CI gates on 2026-07-15 (Stage 4 PR #5):
 
 ## Pending Work (Stage 5+)
 
-**Stage 5 is not authorized until Stage 4 closure report is reviewed.**
+**Stage 5 is not authorized until this Stage 4 closure report is reviewed.**
 
 Suggested later themes:
 

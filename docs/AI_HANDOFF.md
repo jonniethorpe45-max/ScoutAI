@@ -4,7 +4,9 @@
 **From:** Stage 4 athlete platform builder.  
 **Date context:** 2026-07-15.
 
-**Status:** Stage 4 CI green on [PR #5](https://github.com/jonniethorpe45-max/ScoutAI/pull/5). **Do not begin Stage 5 until the Stage 4 closure report is reviewed and Stage 5 is explicitly authorized.**
+**Status:** Stage 4 **merged to `main`** via [PR #5](https://github.com/jonniethorpe45-max/ScoutAI/pull/5) at `6a292854e878bed420a9122dae34b4071162a654`. Main CI green: https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102. See [STAGE4_CLOSURE_REPORT.md](./STAGE4_CLOSURE_REPORT.md).
+
+**Do not begin Stage 5 until the Stage 4 closure report is reviewed and Stage 5 is explicitly authorized.**
 
 ## Mission of Stage 4
 
@@ -36,7 +38,7 @@ Deliver the Athlete Passport foundation: owner onboarding, section editing, comp
 ### Tooling / docs
 
 - Root ESLint flat config (`typescript-eslint`) — meaningful quality gate
-- `docs/ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, `STAGE4_COMPLETION_REPORT.md`
+- `docs/ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, `STAGE4_COMPLETION_REPORT.md`, `STAGE4_CLOSURE_REPORT.md`
 - Updated architecture, authorization matrix, privacy, testing, development, manifest
 
 ### Tests
@@ -44,7 +46,7 @@ Deliver the Athlete Passport foundation: owner onboarding, section editing, comp
 - Completeness unit tests
 - Stage 4 athlete integration suite
 - E2E-ish workflow: register → create → onboard → publish → public
-- **Stage 3 regression suite intact** (auth/health/admin integration tests still pass)
+- **Stage 3 regression suite intact** (`api.integration.test.ts` — auth/health/admin — 11/11 passed on merged `main` CI)
 
 ## What NOT to Rebuild
 
@@ -79,6 +81,7 @@ packages/database/prisma/
 packages/authorization/src/policies.ts
 docs/ATHLETE_PLATFORM.md
 docs/STAGE4_COMPLETION_REPORT.md
+docs/STAGE4_CLOSURE_REPORT.md
 docs/PROJECT_MANIFEST.md
 ```
 
@@ -88,7 +91,7 @@ See `DEVELOPMENT.md`. New registrants can create an athlete profile without a pr
 
 ## Success criteria before Stage 5 starts
 
-1. Stage 4 merged to `main` with green CI.
+1. Stage 4 merged to `main` with green CI. ✅
 2. Closure report reviewed.
 3. Explicit Stage 5 authorization from the product owner.
 4. Read `PROJECT_MANIFEST.md`, `ATHLETE_PLATFORM.md`, and `PRODUCT_CONSTITUTION.md` before coding.
