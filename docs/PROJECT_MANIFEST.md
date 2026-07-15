@@ -2,21 +2,16 @@
 
 ## Project Status
 
-**Stage 4 — Athlete Platform Foundation** — **merged to `main` and closed.**
+**Stage 5 — Games, Seasons, Statistics, and Performance Testing** (in progress on branch; not merged).
 
 | Field | Value |
 | --- | --- |
-| **Stage 3 verified base** | `3c032d62990402ebf72c4736cf8257ef85bef681` |
-| **Stage 4 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/5 — **MERGED** |
-| **Merged commit (main)** | `6a292854e878bed420a9122dae34b4071162a654` |
-| **PR tip (pre-merge)** | `d60e58b96cb4023cc4110a1e2915d5768540871c` |
-| **CI (PR #5, final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447426192 — **success** |
-| **CI (main after merge)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102 — **success** |
-| **Closure report** | [STAGE4_CLOSURE_REPORT.md](./STAGE4_CLOSURE_REPORT.md) |
+| **Stage 5 starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
+| **Stage 4 merged commit** | `6a292854e878bed420a9122dae34b4071162a654` |
+| **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
+| **Completion report** | [STAGE5_COMPLETION_REPORT.md](./STAGE5_COMPLETION_REPORT.md) |
 
-**Prior:** Stage 3 — Repository Foundation (complete on `main`).
-
-**Completion reports:** [STAGE3_COMPLETION_REPORT.md](./STAGE3_COMPLETION_REPORT.md), [STAGE4_COMPLETION_REPORT.md](./STAGE4_COMPLETION_REPORT.md)
+**Prior:** Stage 4 — Athlete Platform Foundation (merged to `main`, closed).
 
 ## Completed Work
 
@@ -28,86 +23,56 @@
 
 ### Stage 4
 
-- Athlete Passport API (owner + public), sports catalog, guardian links
-- Completeness / onboarding / publish gates
-- Web athlete experience (dashboard, onboarding, Passport, settings, public slug)
-- `createMine` grants `ATHLETE` when user has no roles
-- ESLint hardening (root flat config + typescript-eslint)
-- Docs: `ATHLETE_PLATFORM.md`, `ATHLETE_DATA_MODEL.md`, Stage 4 completion + closure reports
-- Integration + E2E-ish workflow tests; completeness unit tests
-- Stage 3 regression suite retained and passing (auth/health/admin integration tests — 11/11 in `api.integration.test.ts`)
+- Athlete Passport API/UI, sports catalog, guardians, completeness/publish, ESLint gate
+
+### Stage 5 (branch)
+
+- Seasons + AthleteSeason historical team context
+- Games + explicit participation + soft duplicate warnings
+- Definition-driven statistics + query-time season aggregation + derived metrics
+- Performance tests + historical results + personal bests (available vs verified)
+- Athlete Games / Stats / Performance UI + public Passport sections
+- Docs: `GAMES_AND_SEASONS.md`, `STATISTICS_ARCHITECTURE.md`, `PERFORMANCE_TESTING.md`
 
 ## Current Architecture
 
 Modular monolith:
 
-- Next.js App Router web (`apps/web`) — foundation + athlete Passport UI
-- NestJS API (`apps/api`) — auth, athletes, sports, guardians, health
+- Next.js App Router web (`apps/web`)
+- NestJS API (`apps/api`) — auth, athletes, sports, guardians, seasons, games, statistics, performance
 - BullMQ worker (`apps/worker`)
 - PostgreSQL + Prisma (`packages/database/prisma/`)
 - Redis (queues + readiness)
 
-Session strategy unchanged: HTTP-only cookie + SHA-256 token hash; Argon2 passwords.
-
-## Environment Requirements
-
-Required services: PostgreSQL 16+, Redis 7+.
-
-Key variables (see `.env.example`):
-
-- `DATABASE_URL`, `REDIS_URL`, `SESSION_SECRET` (≥32 chars)
-- `APP_URL`, `API_URL`, `WEB_PORT`, `API_PORT`
-- `COOKIE_SECURE`, `COOKIE_SAMESITE`, `LOG_LEVEL`, `NODE_ENV`
-- `NEXT_PUBLIC_API_URL` for web
-
 ## Test Status
 
-Local + CI gates on 2026-07-15 (Stage 4 on `main`):
+Local gates on Stage 5 branch (2026-07-15):
 
 | Command | Result |
 | --- | --- |
-| `pnpm lint` (`eslint .`) | Pass |
-| `pnpm typecheck` | Pass (27 tasks) |
+| `pnpm lint` | Pass |
+| `pnpm typecheck` | Pass |
 | `pnpm test` | Pass |
-| `pnpm test:integration` | Pass — API 17/17 (Stage 3 + Stage 4), worker 2/2 |
-| `pnpm build` | Pass (`NODE_ENV=production` for Next) |
-| GitHub Actions CI (`main`) | Pass |
-
-## ESLint limitations (documented)
-
-- Flat config uses `typescript-eslint` recommended rules without type-aware `project` service (faster CI; weaker analysis).
-- Rules emphasize `no-unused-vars` (ignore `_`), `no-explicit-any` (warn), `prefer-const`, `no-debugger`.
-- Web uses shared root ESLint on `app` / `lib` / `components` rather than only `next lint`.
-- Generated Prisma client, `.next`, and `dist` are ignored.
+| `pnpm test:integration` | Pass — API 23/23, worker 2/2 |
+| `pnpm build` | Pass |
 
 ## Known Issues
 
 1. Host Docker CLI may be unavailable in cloud agents — use `dev-infra-local.sh` fallback.
-2. Browser Playwright E2E not wired; API workflow tests cover Stage 4 §27 flow.
-3. Secure media upload deferred (placeholder avatar only).
-4. `CONNECTIONS` visibility allows any authenticated user pending recruiter entitlements.
-5. Minor-athlete legal/compliance review required before production PII collection.
+2. Browser Playwright E2E not wired.
+3. Secure media upload deferred.
+4. Verification review queue not built (provenance fields reserved).
+5. `CONNECTIONS` visibility allows any authenticated user pending recruiter entitlements.
+6. Minor-athlete legal/compliance review required before production PII collection.
 
-## Active Risks
+## Pending Work (Stage 6+)
 
-- Cross-origin cookie auth between `:3000` and `:4000` requires correct CORS credentials.
-- Minor-athlete privacy / DOB gating needs legal review before production.
-- Media and stats stages must not leak restricted fields into public mappers.
+**Do not begin until Stage 5 is merged and explicitly authorized.**
 
-## Pending Work (Stage 5+)
-
-**Stage 5 is not authorized until this Stage 4 closure report is reviewed.**
-
-Suggested later themes:
-
-- Secure media upload + highlight video
-- Verified stats / performance insights
-- Recruiter entitlement-scoped discovery
-- Org roster management
-- Playwright browser E2E
+Suggested themes: secure media, verification review UX, recruiter entitlements, ScoutAI Live viewing, AI-assisted insights (labeled).
 
 ## Last Builder Handoff
 
-See `docs/AI_HANDOFF.md` and `docs/ATHLETE_PLATFORM.md`.
+See `docs/AI_HANDOFF.md`.
 
-Do not rebuild Stage 3/4 foundations. Extend with stage discipline. Update this manifest after every stage.
+Do not rebuild Stage 3/4/5 foundations. Extend with stage discipline. Update this manifest after every stage.

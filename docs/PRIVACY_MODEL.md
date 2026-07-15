@@ -47,6 +47,8 @@ Profile data is classified into visibility tiers at the schema and API layer:
 
 Stage 3 establishes user/role/org schema foundations. **Stage 4** enforces Passport visibility on publish + public slug access (`PRIVATE` / `CONNECTIONS` / `PUBLIC`) and strips restricted fields from `AthletePublicView`.
 
+**Stage 5** extends public Passport with permitted competition summaries and performance bests. Public responses include source labels and verification status without implying unverified data is verified. Private notes, email, DOB, guardian data, and password hashes remain omitted.
+
 ### 5. Future deletion and export
 
 Architecture reserves:
