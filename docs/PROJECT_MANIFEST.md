@@ -9,6 +9,7 @@
 | **Stage 5 starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
 | **Stage 4 merged commit** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
+| **Stage 5 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
 | **Completion report** | [STAGE5_COMPLETION_REPORT.md](./STAGE5_COMPLETION_REPORT.md) |
 
 **Prior:** Stage 4 — Athlete Platform Foundation (merged to `main`, closed).

@@ -112,7 +112,7 @@ Completeness: Stage 5 games/performance are **recommendations**, not publish blo
 
 ## CI
 
-Pending on PR (record URL after push).
+Pending on PR #8: https://github.com/jonniethorpe45-max/ScoutAI/pull/8
 
 ---
 
@@ -130,11 +130,11 @@ No hidden failing tests. No gates weakened.
 
 ## Pull request
 
-(filled after open)
+https://github.com/jonniethorpe45-max/ScoutAI/pull/8
 
 ## Latest commit
 
-(filled after push)
+`1b5f8ef6ec2e413b7c954e3b34c36011a60f1d76`
 
 ## Recommended next stage
 
