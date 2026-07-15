@@ -3,7 +3,7 @@
 **Project:** ScoutAI — Global Athletic Talent Intelligence Network  
 **Stage:** Stage 5 — Games, Seasons, Statistics, and Performance Testing  
 **Report date:** 2026-07-15  
-**Status:** Final tip CI green; closing via [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md)
+**Status:** **CLOSED** — PR #8 merged; see [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md)
 
 ---
 
@@ -15,13 +15,16 @@
 | **Stage 4 merged ancestor** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
-| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
-| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 — **success** |
+| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 — **MERGED** |
+| **Final PR tip** | `c3e708e51e2c3e372b987b3164529a36bdd3f6bf` |
+| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456952261 — **success** |
+| **Merge timestamp** | `2026-07-15T22:57:19Z` |
+| **Merged commit (`main`)** | `0361399a630277204efce9a29e92563f9b5d3755` |
+| **Post-merge main CI** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29457067482 — **success** |
 
 Stage 3 + Stage 4 regression suite was green on the starting SHA before implementation.
 
-Note: earlier tips `2b533c5…` and `ab49265…` were superseded by final tip `acf6d77…` during closure. See STAGE5_CLOSURE_REPORT.md.
+Note: earlier tips `2b533c5…`, `ab49265…`, `acf6d77…`, and `479b9c0…` were superseded by final tip `c3e708e…` during closure. See STAGE5_CLOSURE_REPORT.md.
 
 ---
 
@@ -117,8 +120,11 @@ Completeness: Stage 5 games/performance are **recommendations**, not publish blo
 
 ## CI
 
-**Passed** on PR #8 tip `479b9c07e091421f0afe257b33dae95935a3121b`:  
-https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099
+**Passed** on PR #8 tip `c3e708e51e2c3e372b987b3164529a36bdd3f6bf`:  
+https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456952261
+
+**Passed** on `main` merge commit `0361399a630277204efce9a29e92563f9b5d3755`:  
+https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29457067482
 
 ---
 
@@ -137,15 +143,16 @@ No hidden failing tests. No gates weakened.
 
 ## Pull request
 
-https://github.com/jonniethorpe45-max/ScoutAI/pull/8
+https://github.com/jonniethorpe45-max/ScoutAI/pull/8 — **MERGED**
 
 ## Latest commit
 
-`479b9c07e091421f0afe257b33dae95935a3121b` (see STAGE5_CLOSURE_REPORT.md for merged main SHA)
+Final PR tip: `c3e708e51e2c3e372b987b3164529a36bdd3f6bf`  
+Merged on `main`: `0361399a630277204efce9a29e92563f9b5d3755` (see STAGE5_CLOSURE_REPORT.md)
 
 ## Recommended next stage
 
-Secure media pipeline, verification review UX, or recruiter entitlement-scoped discovery — after Stage 5 merge review.
+Secure media pipeline, verification review UX, or recruiter entitlement-scoped discovery — after Stage 5 closure review.
 
 **Do not begin the next stage until Stage 5 is reviewed and authorized.**
 

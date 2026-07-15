@@ -2,16 +2,19 @@
 
 ## Project Status
 
-**Stage 5 — Games, Seasons, Statistics, and Performance Testing** (closing; PR #8).
+**Stage 5 — Games, Seasons, Statistics, and Performance Testing** — **CLOSED** (merged to `main`).
 
 | Field | Value |
 | --- | --- |
 | **Stage 5 starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
 | **Stage 4 merged commit** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
-| **Stage 5 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
-| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 — **success** |
+| **Stage 5 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 — **MERGED** |
+| **Final PR tip** | `c3e708e51e2c3e372b987b3164529a36bdd3f6bf` |
+| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456952261 — **success** |
+| **Merge timestamp** | `2026-07-15T22:57:19Z` |
+| **Merged commit (`main`)** | `0361399a630277204efce9a29e92563f9b5d3755` |
+| **Post-merge main CI** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29457067482 — **success** |
 | **Completion report** | [STAGE5_COMPLETION_REPORT.md](./STAGE5_COMPLETION_REPORT.md) |
 | **Closure report** | [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md) |
 
@@ -57,7 +60,8 @@ Modular monolith:
 | `pnpm test` | Pass |
 | `pnpm test:integration` | Pass — API 23/23, worker 2/2 |
 | `pnpm build` | Pass |
-| GitHub Actions CI (PR tip) | Pass |
+| GitHub Actions CI (final PR tip) | Pass |
+| GitHub Actions CI (`main` post-merge) | Pass |
 
 ## CI maintenance
 
@@ -75,7 +79,7 @@ GitHub Actions warns that `actions/checkout@v4`, `actions/setup-node@v4`, and `p
 
 ## Pending Work (Stage 6+)
 
-**Do not begin until Stage 5 is merged and the closure report is reviewed and Stage 6 is explicitly authorized.**
+**Do not begin until the Stage 5 closure report is reviewed and Stage 6 is explicitly authorized.**
 
 Suggested themes: secure media, verification review UX, recruiter entitlements, ScoutAI Live viewing, AI-assisted insights (labeled), CI action major bumps.
 

@@ -4,7 +4,7 @@
 **From:** Stage 5 games/stats/performance builder.  
 **Date context:** 2026-07-15.
 
-**Status:** Stage 5 implemented on `cursor/stage5-games-stats-performance-b61c`. Starting SHA `c397ea4f02ce2720156525329fe896aefbc7ace6`. **Do not begin Stage 6 until Stage 5 PR is reviewed, merged, and Stage 6 is explicitly authorized.**
+**Status:** Stage 5 **MERGED** to `main` via PR #8 (`0361399a630277204efce9a29e92563f9b5d3755` at `2026-07-15T22:57:19Z`). Final PR tip `c3e708e51e2c3e372b987b3164529a36bdd3f6bf`. Starting SHA `c397ea4f02ce2720156525329fe896aefbc7ace6`. **Do not begin Stage 6 until the Stage 5 closure report is reviewed and Stage 6 is explicitly authorized.**
 
 ## What Stage 5 Delivered
 
@@ -32,6 +32,7 @@
 | Recruiter | Entitlement-scoped discovery |
 | Live | Viewing interface on existing Game statuses |
 | AI | Labeled insights over verified competition data |
+| CI maintenance | Bump Actions majors off deprecated Node 20 action runtime |
 
 ## Key files
 
@@ -49,6 +50,7 @@ docs/GAMES_AND_SEASONS.md
 docs/STATISTICS_ARCHITECTURE.md
 docs/PERFORMANCE_TESTING.md
 docs/STAGE5_COMPLETION_REPORT.md
+docs/STAGE5_CLOSURE_REPORT.md
 ```
 
 ---
