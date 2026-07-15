@@ -46,3 +46,19 @@ export const GuardianRelationshipStatus = {
 } as const;
 export type GuardianRelationshipStatus =
   (typeof GuardianRelationshipStatus)[keyof typeof GuardianRelationshipStatus];
+
+export const OrganizationMemberRole = {
+  MEMBER: 'MEMBER',
+  COACH: 'COACH',
+  ADMIN: 'ADMIN',
+} as const;
+export type OrganizationMemberRole =
+  (typeof OrganizationMemberRole)[keyof typeof OrganizationMemberRole];
+
+export const ProfileFieldTier = {
+  PUBLIC: 'PUBLIC',
+  ORG: 'ORG',
+  RESTRICTED: 'RESTRICTED',
+  PRIVATE: 'PRIVATE',
+} as const;
+export type ProfileFieldTier = (typeof ProfileFieldTier)[keyof typeof ProfileFieldTier];

@@ -134,16 +134,16 @@ turbo.json / pnpm-workspace.yaml # Workspace config
 .github/workflows/ci.yml         # CI expectations
 ```
 
-## Seed Accounts for Stage 4 Development
+## Seed Accounts for Development
 
-Use fictional seed users from `DEVELOPMENT.md`:
+Use fictional seed users from `DEVELOPMENT.md` / `pnpm db:seed`:
 
-- `athlete1@scoutai.dev` / `Athlete1!`
-- `guardian1@scoutai.dev` / `Guardian1!`
-- `recruiter1@scoutai.dev` / `Recruiter1!`
-- `coach1@scoutai.dev` / `Coach1!`
-- `orgadmin1@scoutai.dev` / `OrgAdmin1!`
-- `admin@scoutai.dev` / `Admin1!Scout`
+- `athlete@scoutai.dev` / `AthletePass1!`
+- `guardian@scoutai.dev` / `GuardianPass1!`
+- `recruiter@scoutai.dev` / `RecruiterPass1!`
+- `coach@scoutai.dev` / `CoachPass1!`
+- `orgadmin@scoutai.dev` / `OrgAdminPass1!`
+- `admin@scoutai.dev` / `AdminPass1!`
 
 ## Success Criteria for Stage 4 Handoff
 

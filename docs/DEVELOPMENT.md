@@ -1,6 +1,6 @@
 # ScoutAI Development Guide
 
-**Stage 3 foundation.** Setup instructions for contributors building the ScoutAI modular monolith locally.
+**Stage 4 athlete platform** on top of the Stage 3 modular monolith foundation.
 
 ## Prerequisites
 
@@ -83,7 +83,10 @@ After `pnpm db:seed`, the following accounts are available in local and CI test 
 | Role | Email | Password | Notes |
 | --- | --- | --- | --- |
 | ScoutAI Admin | `admin@scoutai.dev` | `AdminPass1!` | Access to `/admin/system-info` |
-| Athlete | `athlete@scoutai.dev` | `AthletePass1!` | Sample high school athlete |
+| Athlete | `athlete@scoutai.dev` | `AthletePass1!` | Demo athlete profile + org membership |
+| Guardian | `guardian@scoutai.dev` | `GuardianPass1!` | Active link to demo athlete |
+| Coach | `coach@scoutai.dev` | `CoachPass1!` | Coach membership on demo HS |
+| Org Admin | `orgadmin@scoutai.dev` | `OrgAdminPass1!` | Admin membership on demo HS |
 | Recruiter | `recruiter@scoutai.dev` | `RecruiterPass1!` | Unverified recruiter baseline |
 
 All seed passwords meet minimum length and complexity rules enforced by registration validation.
