@@ -112,8 +112,10 @@ Completeness: Stage 5 games/performance are **recommendations**, not publish blo
 
 ## CI
 
-**Passed** on PR #8 tip `7a38ec14c7ce4b65098538a8346e06c590734c3d`:  
-https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455839011
+**Passed** on PR #8 tip `c721b0c8b35f91ec0eecc75dd479278c622a574c`:  
+https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455966955
+
+(Also green on prior tip `7a38ec1`: https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455839011)
 
 ---
 
@@ -135,7 +137,7 @@ https://github.com/jonniethorpe45-max/ScoutAI/pull/8 — **OPEN (draft); not mer
 
 ## Latest commit
 
-`7a38ec14c7ce4b65098538a8346e06c590734c3d`
+`c721b0c8b35f91ec0eecc75dd479278c622a574c`
 
 ## Recommended next stage
 
