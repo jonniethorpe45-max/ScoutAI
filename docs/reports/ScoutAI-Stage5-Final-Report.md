@@ -3,7 +3,7 @@
 **Project:** ScoutAI — Global Athletic Talent Intelligence Network  
 **Stage:** Stage 5 — Games, Seasons, Statistics, and Performance Testing  
 **Report date:** 2026-07-15  
-**Status:** CI green on PR tip; closing (see STAGE5_CLOSURE_REPORT.md). Stage 6 not authorized.
+**Status:** **CLOSED** — PR #8 merged; post-merge main CI green. Stage 6 not authorized.
 
 This is the downloadable Stage 5 final report.
 
@@ -20,15 +20,17 @@ Stage 5 delivers the structured athletic-performance foundation: seasons, athlet
 | Field | Value |
 | --- | --- |
 | **PR URL** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **PR status** | OPEN — ready for merge after tip CI |
+| **PR status** | **MERGED** (`2026-07-15T22:57:19Z`) |
 | **Starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
 | **Stage 4 ancestor** | `6a292854e878bed420a9122dae34b4071162a654` |
-| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
-| **CI run URL** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 |
-| **CI result** | **success** |
+| **Final PR tip** | `c3e708e51e2c3e372b987b3164529a36bdd3f6bf` |
+| **CI run URL (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456952261 |
+| **CI result (final tip)** | **success** |
+| **Merged commit (`main`)** | `0361399a630277204efce9a29e92563f9b5d3755` |
+| **Post-merge main CI** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29457067482 — **success** |
 | **Stage 3/4 regression** | Intact — API integration **23/23** |
 
-Earlier tips `2b533c5…` / `ab49265…` superseded by final tip `acf6d77…`. See STAGE5_CLOSURE_REPORT.md for merged main SHA.
+Earlier tips `2b533c5…` / `ab49265…` / `acf6d77…` / `479b9c0…` superseded by final tip `c3e708e…`. See STAGE5_CLOSURE_REPORT.md.
 
 ---
 
