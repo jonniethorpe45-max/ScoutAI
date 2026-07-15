@@ -3,7 +3,7 @@
 **Project:** ScoutAI — Global Athletic Talent Intelligence Network  
 **Stage:** Stage 5 — Games, Seasons, Statistics, and Performance Testing  
 **Report date:** 2026-07-15  
-**Status:** Implemented; CI green on PR tip; closing via [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md)
+**Status:** Final tip CI green; closing via [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md)
 
 ---
 
@@ -16,12 +16,12 @@
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
 | **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **PR tip (downloadable report commit)** | `ab492654dee3f4a214fbc38b02529b6092a1a532` |
-| **CI (PR tip ab49265)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456367885 — **success** |
+| **Final PR tip** | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` |
+| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 — **success** |
 
 Stage 3 + Stage 4 regression suite was green on the starting SHA before implementation.
 
-Note: an earlier report revision listed tip `2b533c5…`; GitHub later advanced to `ab49265…` (downloadable Stage 5 final report). Closure aligns all reports to the tip that is merged.
+Note: earlier tips `2b533c5…` and `ab49265…` were superseded by final tip `acf6d77…` during closure. See STAGE5_CLOSURE_REPORT.md.
 
 ---
 
@@ -141,7 +141,7 @@ https://github.com/jonniethorpe45-max/ScoutAI/pull/8
 
 ## Latest commit
 
-`ab492654dee3f4a214fbc38b02529b6092a1a532` (pre-closure-docs tip; see closure report for merged tip)
+`acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` (see STAGE5_CLOSURE_REPORT.md for merged main SHA)
 
 ## Recommended next stage
 

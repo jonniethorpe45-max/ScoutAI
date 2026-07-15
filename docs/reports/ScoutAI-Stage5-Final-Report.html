@@ -23,11 +23,7 @@
         linear-gradient(180deg, #eef5f1 0%, var(--bg) 40%, #f4f7f5 100%);
       line-height: 1.55;
     }
-    main {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
-    }
+    main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
     header {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -45,9 +41,9 @@
       display: inline-block;
       margin-top: 0.75rem;
       padding: 0.2rem 0.55rem;
-      border: 1px solid #c9b27a;
-      background: #f7f1e3;
-      color: #6a5420;
+      border: 1px solid #9fcbb5;
+      background: #e8f6ef;
+      color: #14553a;
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -65,11 +61,7 @@
       border-bottom: 1px solid var(--line);
       padding-bottom: 0.4rem;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
     th, td {
       text-align: left;
       vertical-align: top;
@@ -86,11 +78,7 @@
       background: #eef3f0;
       padding: 0.05rem 0.3rem;
     }
-    footer {
-      margin-top: 1.5rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    footer { margin-top: 1.5rem; color: var(--muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -98,17 +86,15 @@
     <header>
       <h1>ScoutAI — Stage 5 Final Report</h1>
       <div class="meta">Games, Seasons, Statistics, and Performance Testing · 2026-07-15</div>
-      <div class="badge">PR open · Not merged</div>
+      <div class="badge">Final tip CI green · Closing</div>
     </header>
 
     <section>
       <h2>Executive summary</h2>
       <p>
-        Stage 5 delivers the structured athletic-performance foundation: seasons,
-        athlete-season team context, games with explicit participation, definition-driven
-        football statistics with query-time aggregation, performance testing history with
-        personal bests (available vs verified), athlete UI, and public Passport sections.
-        Local gates and CI are green. PR remains unmerged pending review.
+        Stage 5 delivers seasons, games, definition-driven statistics, performance testing,
+        athlete UI, and public Passport performance sections. CI is green on the verified tip.
+        Stage 6 remains gated pending merged closure review.
       </p>
     </section>
 
@@ -116,13 +102,11 @@
       <h2>Delivery fields</h2>
       <table>
         <tr><th>PR URL</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/pull/8">https://github.com/jonniethorpe45-max/ScoutAI/pull/8</a></td></tr>
-        <tr><th>PR status</th><td><strong>OPEN (draft)</strong> — not merged</td></tr>
-        <tr><th>Starting commit</th><td><code>c397ea4f02ce2720156525329fe896aefbc7ace6</code></td></tr>
-        <tr><th>Stage 4 ancestor</th><td><code>6a292854e878bed420a9122dae34b4071162a654</code></td></tr>
-        <tr><th>Latest tip</th><td><code>2b533c59e54e4a706a303b58527d956023445c89</code></td></tr>
-        <tr><th>CI</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456112419">29456112419</a> — success</td></tr>
-        <tr><th>Stage 3/4 regression</th><td><strong>Intact</strong> — API integration 23/23</td></tr>
+        <tr><th>Verified tip</th><td><code>acf6d771ba3f2bb0cb35e8bd2329378386db8ad1</code></td></tr>
+        <tr><th>CI</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852">29456616852</a> — success</td></tr>
+        <tr><th>Stage 3/4 regression</th><td><strong>Intact</strong> — API 23/23</td></tr>
       </table>
+      <p class="meta">See <code>docs/STAGE5_CLOSURE_REPORT.md</code> for the final merged tip SHA and post-merge main CI.</p>
     </section>
 
     <section>
@@ -130,46 +114,24 @@
       <ul>
         <li>Seasons + AthleteSeason historical team context</li>
         <li>Games + explicit participation + soft duplicate warnings</li>
-        <li>Definition-driven football statistics + query-time season aggregation</li>
-        <li>Safe derived metrics (completion %, YPC, YPR)</li>
-        <li>Performance tests + historical results + personal bests</li>
-        <li>Athlete Games / Stats / Performance UI</li>
-        <li>Public Passport season stats, recent games, performance</li>
-        <li>Additive migration <code>20260715220000_stage5_games_stats_performance</code></li>
+        <li>Definition-driven statistics + query-time aggregation + derived metrics</li>
+        <li>Performance tests + personal bests (available vs verified)</li>
+        <li>Athlete Games / Stats / Performance UI + public Passport sections</li>
       </ul>
-    </section>
-
-    <section>
-      <h2>Quality gates</h2>
-      <table>
-        <tr><th><code>pnpm lint</code></th><td>Pass</td></tr>
-        <tr><th><code>pnpm typecheck</code></th><td>Pass</td></tr>
-        <tr><th><code>pnpm test</code></th><td>Pass</td></tr>
-        <tr><th><code>pnpm test:integration</code></th><td>Pass — API 23/23, worker 2/2</td></tr>
-        <tr><th><code>pnpm build</code></th><td>Pass (<code>NODE_ENV=production</code>)</td></tr>
-        <tr><th>GitHub Actions CI</th><td>Pass</td></tr>
-      </table>
     </section>
 
     <section>
       <h2>Remaining known issues</h2>
       <ul>
-        <li>No Playwright browser E2E yet</li>
+        <li>No Playwright browser E2E</li>
         <li>Verification review queue not built</li>
-        <li>Secure media upload deferred</li>
-        <li>Recruiter discovery / Live viewing / AI out of scope</li>
-        <li><code>CONNECTIONS</code> visibility pending recruiter entitlements</li>
+        <li>Secure media deferred</li>
+        <li>CI maintenance: Node.js 20 action runtime deprecation warnings</li>
       </ul>
     </section>
 
-    <section>
-      <h2>Stage 6 gate</h2>
-      <p><strong>Stage 6 is not authorized</strong> until Stage 5 is reviewed, merged, and explicitly approved.</p>
-    </section>
-
     <footer>
-      End of ScoutAI Stage 5 Final Report · Source also at
-      <code>docs/reports/ScoutAI-Stage5-Final-Report.md</code>
+      End of ScoutAI Stage 5 Final Report · <code>docs/reports/ScoutAI-Stage5-Final-Report.md</code>
     </footer>
   </main>
 </body>
