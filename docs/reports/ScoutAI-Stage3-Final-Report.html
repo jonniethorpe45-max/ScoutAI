@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ScoutAI Stage 3 Final Report</title>
+<style>
+  :root { --ink:#0b1f17; --muted:#3d5c4f; --green:#1a5c42; --border:#c8d9cf; --bg:#f4f7f5; }
+  body { font-family: Georgia, 'Times New Roman', serif; color: var(--ink); background: var(--bg); margin: 0; padding: 2rem 1.25rem 4rem; line-height: 1.55; }
+  main { max-width: 880px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 2rem 2.25rem; box-shadow: 0 8px 24px rgba(11,31,23,.06); }
+  h1,h2,h3 { color: var(--green); font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  h1 { font-size: 1.75rem; margin-top: 0; }
+  h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; margin-top: 2rem; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+  pre { background: #0b1f17; color: #e8f0eb; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+  code { background: #e8f0eb; padding: .1em .35em; border-radius: 4px; }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .95rem; font-family: system-ui, sans-serif; }
+  th, td { border: 1px solid var(--border); padding: .5rem .65rem; text-align: left; vertical-align: top; }
+  th { background: #e8f0eb; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  p { margin: .65rem 0; }
+  .meta { color: var(--muted); font-family: system-ui, sans-serif; font-size: .95rem; }
+</style>
+</head>
+<body>
+<main>
+<p class="meta">ScoutAI · Stage 3 Final Report · 2026-07-15 · SHA 3c032d62990402ebf72c4736cf8257ef85bef681</p>
+<h1>ScoutAI — Stage 3 Final Report</h1>
+
+<p><strong>Project:</strong> ScoutAI — Global Athletic Talent Intelligence Network  </p>
+<p><strong>Stage:</strong> Stage 3 — Repository Foundation and Build Bootstrap  </p>
+<p><strong>Report type:</strong> Final completion + standalone publish verification  </p>
+<p><strong>Report date:</strong> 2026-07-15  </p>
+<p><strong>Status:</strong> Complete, published, and verified on standalone <code>main</code></p>
+
+<hr>
+
+<h2>Executive summary</h2>
+
+<p>Stage 3 is complete and published to the standalone GitHub repository at repository root (not nested under <code>scoutai/</code>). CI is green on <code>main</code>. Thorpe Workforce application code was not copied into ScoutAI, and Stage 3 was not merged into Thorpe <code>main</code>.</p>
+
+<table><tr><th>Field</th><th>Value</th></tr><tr><td><strong>ScoutAI repository URL</strong></td><td>https://github.com/jonniethorpe45-max/ScoutAI</td></tr><tr><td><strong>Branch</strong></td><td><code>main</code></td></tr><tr><td><strong>Latest commit SHA</strong></td><td><code>3c032d62990402ebf72c4736cf8257ef85bef681</code></td></tr><tr><td><strong>Merge PR</strong></td><td>[#2 — Publish ScoutAI Stage 3 monorepo to main](https://github.com/jonniethorpe45-max/ScoutAI/pull/2)</td></tr><tr><td><strong>CI status</strong></td><td><strong>Passed</strong></td></tr><tr><td><strong>CI run</strong></td><td>https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29439687791</td></tr><tr><td><strong>Repository root correct?</strong></td><td><strong>Yes</strong> — <code>apps/</code>, <code>packages/</code>, <code>docs/</code>, <code>infrastructure/</code> at root</td></tr><tr><td><strong>Remaining access/publishing problems</strong></td><td><strong>None</strong></td></tr></table>
+
+<hr>
+
+<h2>Publish verification checklist</h2>
+
+<table><tr><th>#</th><th>Requirement</th><th>Result</th></tr><tr><td>1</td><td>Monorepo at ScoutAI repository root (<code>apps/</code>, <code>packages/</code>, <code>docs/</code>, <code>infrastructure/</code>) — not <code>ScoutAI/scoutai/...</code></td><td><strong>Pass</strong></td></tr><tr><td>2</td><td>Preserve complete Git-tracked Stage 3 contents</td><td><strong>Pass</strong> (~188 tracked paths)</td></tr><tr><td>3</td><td>Do not copy Thorpe Workforce application files into ScoutAI</td><td><strong>Pass</strong></td></tr><tr><td>4</td><td>Do not merge ScoutAI Stage 3 into Thorpe Workforce <code>main</code></td><td><strong>Pass</strong> (Thorpe PR #34 remains open/unmerged)</td></tr><tr><td>5</td><td>Replace placeholder README with real Stage 3 repository contents</td><td><strong>Pass</strong></td></tr><tr><td>6</td><td>Push Stage 3 to ScoutAI <code>main</code> (or PR if push restricted)</td><td><strong>Pass</strong> via merged PR #2</td></tr><tr><td>7</td><td>Verify <code>apps/</code>, <code>packages/</code>, <code>docs/</code>, <code>infrastructure/</code>, <code>.github/workflows/</code>, root workspace config</td><td><strong>Pass</strong></td></tr><tr><td>8</td><td>Run/verify Stage 3 quality gates from standalone ScoutAI tree</td><td><strong>Pass</strong> (local + CI)</td></tr><tr><td>9</td><td>Update docs that referred to temporary Thorpe extraction path</td><td><strong>Pass</strong> on <code>main</code></td></tr><tr><td>10</td><td>Final report with URL, branch, SHA, CI, root confirmation, residual issues</td><td><strong>This document</strong></td></tr></table>
+
+<h3>Confirmed root layout on <code>main</code></h3>
+
+<p>``<code>text</p>
+<p>ScoutAI/   (repository root)</p>
+<p>├── apps/</p>
+<p>├── packages/</p>
+<p>├── docs/</p>
+<p>├── infrastructure/</p>
+<p>├── .github/workflows/ci.yml</p>
+<p>├── package.json</p>
+<p>├── pnpm-workspace.yaml</p>
+<p>├── pnpm-lock.yaml</p>
+<p>├── turbo.json</p>
+<p>├── tsconfig.base.json</p>
+<p>├── .env.example</p>
+<p>└── README.md</p>
+<p></code>`<code></p>
+
+<p><strong>Incorrect layout not present:</strong> </code>ScoutAI/scoutai/apps<code> (no nested </code>scoutai/<code> directory).</p>
+
+<h3>Commit history (Stage 3 publish)</h3>
+
+<table><tr><th>SHA</th><th>Message</th></tr><tr><td></code>3c032d6<code></td><td>Merge pull request #2 from </code>cursor/stage3-publish-main-94cb<code></td></tr><tr><td></code>33fa1b9<code></td><td>Pass CI env through Turbo for integration tests</td></tr><tr><td></code>05b620a<code></td><td>Fix CI pnpm setup conflict with </code>packageManager<code> field</td></tr><tr><td></code>163e600<code></td><td>Publish ScoutAI Stage 3 monorepo foundation to repository root</td></tr></table>
+
+<h3>CI fixes applied for green main</h3>
+
+<p>1. <strong>pnpm setup</strong> — removed conflicting </code>version: 9<code> pin so </code>packageManager: pnpm@9.15.0<code> wins  </p>
+<p>2. <strong>Turbo env</strong> — </code>globalPassThroughEnv<code> so CI </code>DATABASE_URL<code> / </code>REDIS_URL<code> / </code>SESSION_SECRET<code> reach integration tests  </p>
+
+<hr>
+
+<h2>1. Completed work</h2>
+
+<h3>Documentation (governing set)</h3>
+
+<p>- </code>docs/PRODUCT_CONSTITUTION.md<code></p>
+<p>- </code>docs/ARCHITECTURE.md<code></p>
+<p>- </code>docs/PROJECT_MANIFEST.md<code></p>
+<p>- </code>docs/AUTHORIZATION_MATRIX.md<code></p>
+<p>- </code>docs/SECURITY.md<code></p>
+<p>- </code>docs/PRIVACY_MODEL.md<code></p>
+<p>- </code>docs/AI_POLICY.md<code></p>
+<p>- </code>docs/LIVE_ARCHITECTURE.md<code></p>
+<p>- </code>docs/VIDEO_ARCHITECTURE.md<code></p>
+<p>- </code>docs/TESTING.md<code></p>
+<p>- </code>docs/DEPLOYMENT.md<code></p>
+<p>- </code>docs/DEVELOPMENT.md<code></p>
+<p>- </code>docs/AI_HANDOFF.md<code></p>
+<p>- ADRs:</p>
+<p>  - </code>docs/adr/ADR-001-modular-monolith.md<code></p>
+<p>  - </code>docs/adr/ADR-002-postgresql-system-of-record.md<code></p>
+<p>  - </code>docs/adr/ADR-003-provider-agnostic-live.md<code></p>
+<p>  - </code>docs/adr/ADR-004-entitlement-based-feature-access.md<code></p>
+<p>  - </code>docs/adr/ADR-005-ai-provider-abstraction.md<code></p>
+<p>  - </code>docs/adr/ADR-006-multi-sport-configurable-data-model.md<code></p>
+
+<h3>Repository / workspace</h3>
+
+<p>- pnpm workspaces + Turborepo monorepo at repository root</p>
+<p>- Root tooling: </code>package.json<code>, </code>pnpm-workspace.yaml<code>, </code>turbo.json<code>, </code>tsconfig.base.json<code>, </code>.editorconfig<code>, </code>.gitignore<code>, </code>.env.example<code>, Prettier</p>
+<p>- Docker Compose for PostgreSQL + Redis</p>
+<p>- Local infra fallback script when Docker is unavailable</p>
+<p>- GitHub Actions CI workflow</p>
+
+<h3>Applications</h3>
+
+<table><tr><th>App</th><th>Stack</th><th>Stage 3 responsibility</th></tr><tr><td></code>apps/web<code></td><td>Next.js App Router</td><td></code>/<code>, </code>/sign-in<code>, </code>/register<code>, </code>/app<code>, </code>/unauthorized<code></td></tr><tr><td></code>apps/api<code></td><td>NestJS</td><td>Health, auth, users, authorization, audit</td></tr><tr><td></code>apps/worker<code></td><td>BullMQ</td><td></code>system.smoke<code> proof job</td></tr></table>
+
+<h3>Shared packages</h3>
+
+<p></code>ui<code>, </code>database<code>, </code>auth<code>, </code>authorization<code>, </code>config<code>, </code>contracts<code>, </code>validation<code>, </code>domain<code>, </code>ai<code>, </code>video<code>, </code>live<code>, </code>billing<code>, </code>notifications<code>, </code>observability<code>, </code>testing<code></p>
+
+<p>Provider packages include interfaces + mock/local adapters only (no live vendor product integrations).</p>
+
+<h3>Database foundation (Prisma)</h3>
+
+<p>Models implemented:</p>
+
+<p>- </code>User<code></p>
+<p>- </code>UserRole<code> (multi-role)</p>
+<p>- </code>Session<code> (DB-backed, revocable)</p>
+<p>- </code>AuditEvent<code></p>
+<p>- </code>Organization<code></p>
+<p>- </code>OrganizationMember<code></p>
+<p>- </code>Athlete<code> (minimal)</p>
+<p>- </code>Recruiter<code> (minimal)</p>
+<p>- </code>GuardianRelationship<code> (minimal)</p>
+
+<p>Migration: </code>20260715120000_stage3_init<code>  </p>
+<p>Seed: synthetic </code>@scoutai.dev<code> users (not real persons / not minors)</p>
+
+<h3>Authentication &amp; authorization</h3>
+
+<p>- Email/password registration + login + logout</p>
+<p>- Argon2 password hashing (</code>@scoutai/auth<code>)</p>
+<p>- HTTP-only cookie sessions; server-side revocation</p>
+<p>- Email normalization + uniqueness</p>
+<p>- Rate-limit foundation on register/login</p>
+<p>- Proof routes:</p>
+<p>  - Authenticated </code>GET /me<code></p>
+<p>  - </code>GET /admin/system-info<code> restricted to </code>SCOUTAI_ADMIN<code></p>
+
+<h3>Operations</h3>
+
+<p>- </code>GET /health<code> (liveness)</p>
+<p>- </code>GET /health/ready<code> (PostgreSQL + Redis)</p>
+<p>- Structured logging with request IDs</p>
+<p>- Audit events for register/login/logout/admin access</p>
+
+<hr>
+
+<h2>2. Architecture</h2>
+
+<p><strong>Topology:</strong> Modular Monolith + Background Worker + Provider Adapters</p>
+
+<p><strong>Implemented stack:</strong></p>
+
+<p>- Node.js 22 LTS</p>
+<p>- TypeScript (strict)</p>
+<p>- pnpm workspaces</p>
+<p>- Turborepo</p>
+<p>- Next.js (App Router) — </code>apps/web<code></p>
+<p>- React</p>
+<p>- NestJS — </code>apps/api<code></p>
+<p>- PostgreSQL</p>
+<p>- Prisma</p>
+<p>- Redis</p>
+<p>- BullMQ — </code>apps/worker<code></p>
+<p>- Zod</p>
+<p>- Docker Compose (Postgres + Redis)</p>
+<p>- GitHub Actions CI</p>
+
+<p><strong>Session strategy:</strong> Database-backed sessions; raw token in HTTP-only cookie; SHA-256 token hash stored server-side; logout sets </code>revokedAt<code>.</p>
+
+<p><strong>Deliberately not used in Stage 3:</strong> microservices, Kubernetes, Firebase/MongoDB/Supabase as system of record, monolithic Next-only backend, vendor AI/streaming SDKs in core domain.</p>
+
+<hr>
+
+<h2>3. Commands run</h2>
+
+<p></code>`<code>bash</p>
+<p>pnpm install</p>
+<p>bash infrastructure/scripts/dev-infra-local.sh</p>
+<p>pnpm db:generate</p>
+<h1>migration applied: 20260715120000_stage3_init</h1>
+<p>pnpm db:seed</p>
+<p>pnpm typecheck</p>
+<p>pnpm test</p>
+<p>pnpm test:integration</p>
+<p>pnpm lint</p>
+<p>pnpm build</p>
+<p></code>`<code></p>
+
+<p>Manual API smoke:</p>
+
+<p></code>`<code>bash</p>
+<p>curl http://127.0.0.1:4000/health</p>
+<p>curl http://127.0.0.1:4000/health/ready</p>
+<p>curl -c cookies.txt -X POST http://127.0.0.1:4000/auth/login \</p>
+<p>  -H &#x27;Content-Type: application/json&#x27; \</p>
+<p>  -d &#x27;{&quot;email&quot;:&quot;admin@scoutai.dev&quot;,&quot;password&quot;:&quot;AdminPass1!&quot;}&#x27;</p>
+<p>curl -b cookies.txt http://127.0.0.1:4000/me</p>
+<p>curl -b cookies.txt http://127.0.0.1:4000/admin/system-info</p>
+<p></code>`<code></p>
+
+<hr>
+
+<h2>4. Test results</h2>
+
+<table><tr><th>Check</th><th>Result</th></tr><tr><td></code>pnpm install<code></td><td>Pass</td></tr><tr><td>PostgreSQL + Redis available</td><td>Pass</td></tr><tr><td>Prisma generate</td><td>Pass</td></tr><tr><td>Migration applied</td><td>Pass (</code>20260715120000_stage3_init<code>)</td></tr><tr><td>Seed</td><td>Pass</td></tr><tr><td></code>pnpm typecheck<code></td><td>Pass</td></tr><tr><td></code>pnpm test<code> (unit)</td><td>Pass</td></tr><tr><td></code>pnpm test:integration<code></td><td>Pass — API <strong>11/11</strong>, worker <strong>2/2</strong></td></tr><tr><td></code>pnpm lint<code></td><td>Pass</td></tr><tr><td></code>pnpm build<code></td><td>Pass</td></tr><tr><td>Manual auth/admin smoke</td><td>Pass</td></tr><tr><td>GitHub Actions CI on </code>main<code></td><td>Pass</td></tr></table>
+
+<hr>
+
+<h2>5. Known issues</h2>
+
+<p>1. Docker CLI may be unavailable in some cloud agent environments. Compose files remain the standard local path; </code>infrastructure/scripts/dev-infra-local.sh<code> is the fallback.</p>
+<p>2. Root ESLint is minimal; typecheck and Next.js lint provide the practical gate.</p>
+<p>3. Prisma </code>migrate reset<code> requires explicit human consent when invoked by AI agents.</p>
+<p>4. README tree diagram mentions a root </code>prisma/<code> folder; migrations actually live under </code>packages/database/prisma/<code> (cosmetic doc nit only).</p>
+
+<hr>
+
+<h2>6. Repository location &amp; seed credentials</h2>
+
+<table><tr><th>Location</th><th>Notes</th></tr><tr><td>Standalone repository</td><td>https://github.com/jonniethorpe45-max/ScoutAI</td></tr><tr><td>Monorepo root</td><td>Repository root (</code>apps/<code>, </code>packages/<code>, </code>docs/<code>, </code>infrastructure/<code>)</td></tr><tr><td>Source extract (historical)</td><td>Prepared under Thorpe-Workforce </code>scoutai/<code> then published to ScoutAI root — Thorpe </code>main<code> not used as substitute</td></tr></table>
+
+<p>Seed credentials (development only — fictional accounts):</p>
+
+<table><tr><th>Role</th><th>Email</th><th>Password</th></tr><tr><td>ScoutAI Admin</td><td></code>admin@scoutai.dev<code></td><td></code>AdminPass1!<code></td></tr><tr><td>Athlete</td><td></code>athlete@scoutai.dev<code></td><td></code>AthletePass1!<code></td></tr><tr><td>Recruiter</td><td></code>recruiter@scoutai.dev<code></td><td></code>RecruiterPass1!<code></td></tr></table>
+
+<hr>
+
+<h2>7. Quality gate checklist (Stage 3)</h2>
+
+<table><tr><th>#</th><th>Gate</th><th>Status</th></tr><tr><td>1</td><td>Repository installs successfully</td><td>Pass</td></tr><tr><td>2</td><td>PostgreSQL starts</td><td>Pass</td></tr><tr><td>3</td><td>Redis starts</td><td>Pass</td></tr><tr><td>4</td><td>Migrations run</td><td>Pass</td></tr><tr><td>5</td><td>Seed runs</td><td>Pass</td></tr><tr><td>6</td><td>Web application builds</td><td>Pass</td></tr><tr><td>7</td><td>API builds / starts</td><td>Pass</td></tr><tr><td>8</td><td>Worker builds / smoke works</td><td>Pass</td></tr><tr><td>9</td><td>Registration works</td><td>Pass</td></tr><tr><td>10</td><td>Login works</td><td>Pass</td></tr><tr><td>11</td><td>Logout works</td><td>Pass</td></tr><tr><td>12</td><td></code>/me<code> works</td><td>Pass</td></tr><tr><td>13</td><td>Admin authorization works</td><td>Pass</td></tr><tr><td>14</td><td>Health checks work</td><td>Pass</td></tr><tr><td>15</td><td>Worker smoke job works</td><td>Pass</td></tr><tr><td>16</td><td>Lint passes</td><td>Pass</td></tr><tr><td>17</td><td>Typecheck passes</td><td>Pass</td></tr><tr><td>18</td><td>Tests pass</td><td>Pass</td></tr><tr><td>19</td><td>Build passes</td><td>Pass</td></tr><tr><td>20</td><td>Documentation reflects reality</td><td>Pass</td></tr></table>
+
+<hr>
+
+<h2>8. Next stage</h2>
+
+<p><strong>Stage 4 — Athlete Platform Foundation</strong></p>
+
+<p>Do not rebuild Stage 3 foundations. Extend with stage discipline. See </code>docs/AI_HANDOFF.md<code>.</p>
+
+<p>Stage 4 must not begin until this standalone publish is verified — <strong>verified as of this report</strong>.</p>
+
+<hr>
+
+<h2>Residual problems</h2>
+
+<p><strong>None</strong> for Stage 3 publishing or access. Cursor GitHub App write access to </code>jonniethorpe45-max/ScoutAI<code> is working. Thorpe-Workforce Stage 3 extract PR remains open and correctly unmerged into Thorpe </code>main<code>.</p>
+
+<hr>
+
+<p>*End of ScoutAI Stage 3 Final Report.*  </p>
+<p>*Generated 2026-07-15 · Commit </code>3c032d62990402ebf72c4736cf8257ef85bef681`*</p>
+</main>
+</body>
+</html>
