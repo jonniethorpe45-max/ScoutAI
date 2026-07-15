@@ -3,7 +3,7 @@
 **Project:** ScoutAI — Global Athletic Talent Intelligence Network  
 **Stage:** Stage 5 — Games, Seasons, Statistics, and Performance Testing  
 **Report date:** 2026-07-15  
-**Status:** Implemented on branch; **PR open — do not merge until reviewed**
+**Status:** Implemented; CI green on PR tip; closing via [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md)
 
 ---
 
@@ -15,8 +15,13 @@
 | **Stage 4 merged ancestor** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
+| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
+| **PR tip (downloadable report commit)** | `ab492654dee3f4a214fbc38b02529b6092a1a532` |
+| **CI (PR tip ab49265)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456367885 — **success** |
 
 Stage 3 + Stage 4 regression suite was green on the starting SHA before implementation.
+
+Note: an earlier report revision listed tip `2b533c5…`; GitHub later advanced to `ab49265…` (downloadable Stage 5 final report). Closure aligns all reports to the tip that is merged.
 
 ---
 
@@ -112,10 +117,8 @@ Completeness: Stage 5 games/performance are **recommendations**, not publish blo
 
 ## CI
 
-**Passed** on PR #8 tip `c721b0c8b35f91ec0eecc75dd479278c622a574c`:  
-https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455966955
-
-(Also green on prior tip `7a38ec1`: https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455839011)
+**Passed** on PR #8 tip `ab492654dee3f4a214fbc38b02529b6092a1a532`:  
+https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456367885
 
 ---
 
@@ -126,6 +129,7 @@ https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29455966955
 3. Media/video upload still deferred (honest placeholders).
 4. Recruiter discovery / Live viewing / AI analysis out of scope.
 5. `CONNECTIONS` visibility still any authenticated user (Stage 4 carryover).
+6. **CI maintenance:** GitHub Actions warns that `actions/checkout@v4`, `actions/setup-node@v4`, and `pnpm/action-setup@v4` target deprecated Node.js 20 action runtime metadata and are forced onto Node.js 24. Not a Stage 5 blocker; schedule a dedicated Actions major-version bump.
 
 No hidden failing tests. No gates weakened.
 
@@ -133,11 +137,11 @@ No hidden failing tests. No gates weakened.
 
 ## Pull request
 
-https://github.com/jonniethorpe45-max/ScoutAI/pull/8 — **OPEN (draft); not merged**
+https://github.com/jonniethorpe45-max/ScoutAI/pull/8
 
 ## Latest commit
 
-`c721b0c8b35f91ec0eecc75dd479278c622a574c`
+`ab492654dee3f4a214fbc38b02529b6092a1a532` (pre-closure-docs tip; see closure report for merged tip)
 
 ## Recommended next stage
 
