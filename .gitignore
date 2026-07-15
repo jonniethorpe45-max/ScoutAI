@@ -14,3 +14,5 @@ coverage/
 .pnpm-store/
 playwright-report/
 test-results/
+dump.rdb
+*.rdb
