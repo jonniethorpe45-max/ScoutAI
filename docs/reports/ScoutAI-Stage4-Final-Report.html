@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScoutAI — Stage 4 Final Report</title>
+  <style>
+    :root {
+      --ink: #14211c;
+      --muted: #4a5c54;
+      --line: #d5ddd8;
+      --bg: #f7faf8;
+      --panel: #ffffff;
+      --accent: #1f6b4a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #dceee4 0%, transparent 55%),
+        linear-gradient(180deg, #eef5f1 0%, var(--bg) 40%, #f4f7f5 100%);
+      line-height: 1.55;
+    }
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+    header {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 1.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+    .meta { color: var(--muted); font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid #9fcbb5;
+      background: #e8f6ef;
+      color: #14553a;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.2rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.4rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.55rem 0.45rem;
+      border-bottom: 1px solid var(--line);
+    }
+    th { width: 38%; color: var(--muted); font-weight: 600; }
+    ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+    li { margin: 0.25rem 0; }
+    a { color: #0f5c3d; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: #eef3f0;
+      padding: 0.05rem 0.3rem;
+    }
+    footer {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>ScoutAI — Stage 4 Final Report</h1>
+      <div class="meta">Athlete Platform Foundation · 2026-07-15</div>
+      <div class="badge">Closed · Merged to main</div>
+    </header>
+
+    <section>
+      <h2>Executive summary</h2>
+      <p>
+        Stage 4 delivered the Athlete Passport foundation on the verified Stage 3 monorepo:
+        owner onboarding, section editing, completeness/publish gates, public Passport,
+        sports catalog, and guardian invite workflow. PR #5 merged to <code>main</code> with green CI.
+        No post-report code fixes were required. Stage 5 remains gated.
+      </p>
+    </section>
+
+    <section>
+      <h2>Closure fields</h2>
+      <table>
+        <tr><th>PR URL</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/pull/5">https://github.com/jonniethorpe45-max/ScoutAI/pull/5</a></td></tr>
+        <tr><th>Final PR status</th><td><strong>MERGED</strong> (2026-07-15T20:15:34Z)</td></tr>
+        <tr><th>CI (PR tip)</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447426192">29447426192</a> — success</td></tr>
+        <tr><th>CI (main after merge)</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102">29447620102</a> — success</td></tr>
+        <tr><th>Merged commit SHA</th><td><code>6a292854e878bed420a9122dae34b4071162a654</code></td></tr>
+        <tr><th>Stage 3 verified base</th><td><code>3c032d62990402ebf72c4736cf8257ef85bef681</code></td></tr>
+        <tr><th>main contains Stage 4</th><td><strong>Yes</strong></td></tr>
+        <tr><th>Stage 3 regression intact</th><td><strong>Yes</strong> — API 17/17 (incl. Stage 3 11/11), worker 2/2</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>What shipped</h2>
+      <ul>
+        <li>Athlete Passport API (owner + public) with privacy stripping</li>
+        <li>Sports catalog + Football positions seed</li>
+        <li>Completeness / onboarding / publish gates</li>
+        <li>Guardian invite → accept → revoke</li>
+        <li>Web athlete dashboard, onboarding, Passport, settings, public slug</li>
+        <li>Additive migration <code>20260715190000_stage4_athlete_platform</code></li>
+        <li>ESLint root flat config as a real quality gate</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Quality gates</h2>
+      <table>
+        <tr><th><code>pnpm lint</code></th><td>Pass</td></tr>
+        <tr><th><code>pnpm typecheck</code></th><td>Pass (27 tasks)</td></tr>
+        <tr><th><code>pnpm test</code></th><td>Pass</td></tr>
+        <tr><th><code>pnpm test:integration</code></th><td>Pass — API 17/17, worker 2/2</td></tr>
+        <tr><th><code>pnpm build</code></th><td>Pass (<code>NODE_ENV=production</code>)</td></tr>
+        <tr><th>GitHub Actions CI</th><td>Pass (PR tip + merged main)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Fixes after initial report</h2>
+      <p><strong>None</strong> for code, tests, lint, authorization, privacy, or build. Docs-only closure updates only.</p>
+    </section>
+
+    <section>
+      <h2>Remaining known issues</h2>
+      <ul>
+        <li>No Playwright browser E2E yet</li>
+        <li>Secure media upload deferred</li>
+        <li>Minor-athlete legal review still required</li>
+        <li><code>CONNECTIONS</code> visibility pending recruiter entitlements</li>
+        <li>ESLint non-type-aware</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Stage 5 gate</h2>
+      <p><strong>Stage 5 is not authorized</strong> until this Stage 4 closure is reviewed and Stage 5 is explicitly approved.</p>
+    </section>
+
+    <footer>
+      End of ScoutAI Stage 4 Final Report · Source also at
+      <code>docs/reports/ScoutAI-Stage4-Final-Report.md</code>
+    </footer>
+  </main>
+</body>
+</html>
