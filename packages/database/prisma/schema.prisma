@@ -103,6 +103,90 @@ enum GuardianInviteStatus {
   EXPIRED
 }
 
+enum SeasonStatus {
+  UPCOMING
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum AthleteSeasonStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum GameStatus {
+  SCHEDULED
+  PRE_GAME
+  LIVE
+  DELAYED
+  POSTPONED
+  CANCELLED
+  COMPLETED
+}
+
+enum ParticipationStatus {
+  ROSTERED
+  EXPECTED
+  CONFIRMED_ACTIVE
+  PARTICIPATED
+  DID_NOT_PARTICIPATE
+  UNKNOWN
+}
+
+enum StatisticDataType {
+  INTEGER
+  DECIMAL
+  PERCENTAGE
+}
+
+enum StatisticAggregationType {
+  SUM
+  AVERAGE
+  MAX
+  MIN
+  LATEST
+  DERIVED
+}
+
+enum StatisticCategory {
+  PASSING
+  RUSHING
+  RECEIVING
+  DEFENSE
+  KICKING
+  PUNTING
+  RETURNS
+  OTHER
+}
+
+enum MeasurementType {
+  TIME
+  DISTANCE
+  HEIGHT
+  WEIGHT
+  COUNT
+}
+
+enum DataSourceType {
+  SELF_REPORTED
+  COACH_REPORTED
+  ORGANIZATION_REPORTED
+  IMPORTED
+  SOURCE_VERIFIED
+  SCOUTAI_VERIFIED
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  REJECTED
+  EXPIRED
+  REVOKED
+}
+
 model User {
   id              String     @id @default(uuid()) @db.Uuid
   email           String
@@ -112,14 +196,17 @@ model User {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
-  roles                 UserRole[]
-  sessions              Session[]
-  organizationMembers   OrganizationMember[]
-  athleteProfile        Athlete?
-  recruiterProfile      Recruiter?
-  guardianRelationships GuardianRelationship[] @relation("GuardianUser")
-  guardianInvitesSent   GuardianRelationship[] @relation("GuardianInviter")
-  auditEvents           AuditEvent[]
+  roles                   UserRole[]
+  sessions                Session[]
+  organizationMembers     OrganizationMember[]
+  athleteProfile          Athlete?
+  recruiterProfile        Recruiter?
+  guardianRelationships   GuardianRelationship[] @relation("GuardianUser")
+  guardianInvitesSent     GuardianRelationship[] @relation("GuardianInviter")
+  auditEvents             AuditEvent[]
+  gamesCreated            Game[]                 @relation("GameCreator")
+  gameStatisticsEntered   AthleteGameStatistic[] @relation("GameStatEnterer")
+  performanceResultsEntered PerformanceTestResult[] @relation("PerfResultEnterer")
 
   @@index([email])
 }
@@ -179,9 +266,11 @@ model Organization {
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 
-  members    OrganizationMember[]
-  recruiters Recruiter[]
-  athletes   Athlete[]
+  members        OrganizationMember[]
+  recruiters     Recruiter[]
+  athletes       Athlete[]
+  teams          Team[]
+  athleteSeasons AthleteSeason[]
 }
 
 model OrganizationMember {
@@ -207,8 +296,14 @@ model Sport {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  positions     Position[]
-  athleteSports AthleteSport[]
+  positions                  Position[]
+  athleteSports              AthleteSport[]
+  seasons                    Season[]
+  teams                      Team[]
+  athleteSeasons             AthleteSeason[]
+  games                      Game[]
+  statisticDefinitions       StatisticDefinition[]
+  performanceTestDefinitions PerformanceTestDefinition[]
 }
 
 model Position {
@@ -222,6 +317,7 @@ model Position {
 
   sport            Sport             @relation(fields: [sportId], references: [id], onDelete: Cascade)
   athletePositions AthletePosition[]
+  athleteSeasons   AthleteSeason[]   @relation("AthleteSeasonPrimaryPosition")
 
   @@unique([sportId, code])
   @@index([sportId])
@@ -261,6 +357,9 @@ model Athlete {
   academicProfile       AthleteAcademicProfile?
   recruitingProfile     AthleteRecruitingProfile?
   guardianRelationships GuardianRelationship[]
+  athleteSeasons        AthleteSeason[]
+  gameParticipations    AthleteGameParticipation[]
+  performanceResults    PerformanceTestResult[]
 
   @@index([organizationId])
   @@index([profileStatus])
@@ -367,4 +466,220 @@ model GuardianRelationship {
   @@unique([guardianUserId, athleteId])
   @@index([athleteId])
   @@index([invitedByUserId])
+}
+
+// --- Stage 5: Games, Seasons, Statistics, Performance ---
+
+model Team {
+  id             String   @id @default(uuid()) @db.Uuid
+  name           String
+  organizationId String?  @db.Uuid
+  sportId        String?  @db.Uuid
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization   Organization?  @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  sport          Sport?         @relation(fields: [sportId], references: [id], onDelete: SetNull)
+  athleteSeasons AthleteSeason[]
+  homeGames      Game[]         @relation("HomeTeam")
+  awayGames      Game[]         @relation("AwayTeam")
+
+  @@index([organizationId])
+  @@index([sportId])
+  @@index([name])
+}
+
+model Season {
+  id        String       @id @default(uuid()) @db.Uuid
+  sportId   String       @db.Uuid
+  name      String
+  year      Int
+  startDate DateTime?
+  endDate   DateTime?
+  status    SeasonStatus @default(UPCOMING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  sport          Sport           @relation(fields: [sportId], references: [id], onDelete: Restrict)
+  athleteSeasons AthleteSeason[]
+  games          Game[]
+
+  @@index([sportId])
+  @@index([year])
+  @@index([status])
+  @@unique([sportId, name, year])
+}
+
+model AthleteSeason {
+  id                   String              @id @default(uuid()) @db.Uuid
+  athleteId            String              @db.Uuid
+  seasonId             String              @db.Uuid
+  sportId              String              @db.Uuid
+  teamId               String?             @db.Uuid
+  organizationId       String?             @db.Uuid
+  selfReportedTeamName String?
+  jerseyNumber         String?
+  primaryPositionId    String?             @db.Uuid
+  status               AthleteSeasonStatus @default(ACTIVE)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  athlete         Athlete                  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  season          Season                   @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  sport           Sport                    @relation(fields: [sportId], references: [id], onDelete: Restrict)
+  team            Team?                    @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  organization    Organization?            @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  primaryPosition Position?                @relation("AthleteSeasonPrimaryPosition", fields: [primaryPositionId], references: [id], onDelete: SetNull)
+  participations  AthleteGameParticipation[]
+
+  @@unique([athleteId, seasonId])
+  @@index([seasonId])
+  @@index([sportId])
+  @@index([teamId])
+}
+
+model Game {
+  id               String     @id @default(uuid()) @db.Uuid
+  sportId          String     @db.Uuid
+  seasonId         String     @db.Uuid
+  scheduledStart   DateTime
+  timezone         String     @default("America/Chicago")
+  status           GameStatus @default(SCHEDULED)
+  homeTeamId       String?    @db.Uuid
+  awayTeamId       String?    @db.Uuid
+  homeTeamName     String
+  awayTeamName     String
+  locationName     String?
+  city             String?
+  stateRegion      String?
+  countryCode      String?    @default("US")
+  homeScore        Int?
+  awayScore        Int?
+  createdByUserId  String     @db.Uuid
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  sport          Sport                     @relation(fields: [sportId], references: [id], onDelete: Restrict)
+  season         Season                    @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  homeTeam       Team?                     @relation("HomeTeam", fields: [homeTeamId], references: [id], onDelete: SetNull)
+  awayTeam       Team?                     @relation("AwayTeam", fields: [awayTeamId], references: [id], onDelete: SetNull)
+  createdBy      User                      @relation("GameCreator", fields: [createdByUserId], references: [id], onDelete: Restrict)
+  participations AthleteGameParticipation[]
+
+  @@index([sportId])
+  @@index([seasonId])
+  @@index([scheduledStart])
+  @@index([status])
+  @@index([createdByUserId])
+}
+
+model AthleteGameParticipation {
+  id                   String              @id @default(uuid()) @db.Uuid
+  athleteId            String              @db.Uuid
+  gameId               String              @db.Uuid
+  athleteSeasonId      String?             @db.Uuid
+  participationStatus  ParticipationStatus @default(UNKNOWN)
+  jerseyNumber         String?
+  starter              Boolean?
+  sourceType           DataSourceType      @default(SELF_REPORTED)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  athlete   Athlete               @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  game      Game                  @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  athleteSeason AthleteSeason?    @relation(fields: [athleteSeasonId], references: [id], onDelete: SetNull)
+  statistics AthleteGameStatistic[]
+
+  @@unique([athleteId, gameId])
+  @@index([gameId])
+  @@index([athleteSeasonId])
+}
+
+model StatisticDefinition {
+  id              String                    @id @default(uuid()) @db.Uuid
+  sportId         String                    @db.Uuid
+  code            String
+  name            String
+  shortName       String
+  description     String?
+  dataType        StatisticDataType
+  unit            String?
+  aggregationType StatisticAggregationType
+  category        StatisticCategory         @default(OTHER)
+  higherIsBetter  Boolean?
+  active          Boolean                   @default(true)
+  displayOrder    Int                       @default(0)
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  sport      Sport                  @relation(fields: [sportId], references: [id], onDelete: Restrict)
+  gameStats  AthleteGameStatistic[]
+
+  @@unique([sportId, code])
+  @@index([sportId])
+  @@index([category])
+}
+
+model AthleteGameStatistic {
+  id                          String             @id @default(uuid()) @db.Uuid
+  athleteGameParticipationId  String             @db.Uuid
+  statisticDefinitionId       String             @db.Uuid
+  numericValue                Decimal            @db.Decimal(12, 4)
+  sourceType                  DataSourceType     @default(SELF_REPORTED)
+  verificationStatus          VerificationStatus @default(UNVERIFIED)
+  enteredByUserId             String             @db.Uuid
+  createdAt                   DateTime           @default(now())
+  updatedAt                   DateTime           @updatedAt
+
+  participation AthleteGameParticipation @relation(fields: [athleteGameParticipationId], references: [id], onDelete: Cascade)
+  definition    StatisticDefinition      @relation(fields: [statisticDefinitionId], references: [id], onDelete: Restrict)
+  enteredBy     User                     @relation("GameStatEnterer", fields: [enteredByUserId], references: [id], onDelete: Restrict)
+
+  @@unique([athleteGameParticipationId, statisticDefinitionId])
+  @@index([statisticDefinitionId])
+  @@index([verificationStatus])
+}
+
+model PerformanceTestDefinition {
+  id              String          @id @default(uuid()) @db.Uuid
+  sportId         String?         @db.Uuid
+  code            String          @unique
+  name            String
+  description     String?
+  measurementType MeasurementType
+  unit            String
+  lowerIsBetter   Boolean
+  active          Boolean         @default(true)
+  displayOrder    Int             @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  sport   Sport?                  @relation(fields: [sportId], references: [id], onDelete: SetNull)
+  results PerformanceTestResult[]
+
+  @@index([sportId])
+}
+
+model PerformanceTestResult {
+  id                           String             @id @default(uuid()) @db.Uuid
+  athleteId                    String             @db.Uuid
+  performanceTestDefinitionId  String             @db.Uuid
+  numericValue                 Decimal            @db.Decimal(12, 4)
+  performedAt                  DateTime
+  eventName                    String?
+  locationName                 String?
+  sourceType                   DataSourceType     @default(SELF_REPORTED)
+  verificationStatus           VerificationStatus @default(UNVERIFIED)
+  enteredByUserId              String             @db.Uuid
+  notes                        String?
+  createdAt                    DateTime           @default(now())
+  updatedAt                    DateTime           @updatedAt
+
+  athlete    Athlete                    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  definition PerformanceTestDefinition  @relation(fields: [performanceTestDefinitionId], references: [id], onDelete: Restrict)
+  enteredBy  User                       @relation("PerfResultEnterer", fields: [enteredByUserId], references: [id], onDelete: Restrict)
+
+  @@index([athleteId, performanceTestDefinitionId, performedAt])
+  @@index([verificationStatus])
+  @@index([enteredByUserId])
 }

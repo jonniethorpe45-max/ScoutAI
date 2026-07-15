@@ -37,6 +37,8 @@
 | View athlete public profile | **Own** | **Restricted** (linked) | **Restricted** (published + visibility) | **Restricted** (published + visibility) | **Restricted** (published + visibility) | **Allow** |
 | View athlete restricted contact info | **Own** | **Restricted** (linked) | **Restricted** (entitlement + consent, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (org policy, **Future**) | **Restricted** (audit-logged, **Future**) |
 | Manage guardian–athlete link | **Own** (invite/revoke) | **Restricted** (accept own invite) | **Deny** | **Deny** | **Deny** | **Allow** |
+| Manage own seasons / games / stats / performance | **Own** | **Deny** | **Deny** | **Deny** | **Deny** | **Allow** |
+| Set verification status on competition/performance data | **Deny** | **Deny** | **Deny** | **Future** | **Future** | **Future** (review queue) |
 | Verify recruiter identity | **Deny** | **Deny** | **Deny** | **Deny** | **Deny** | **Future** |
 | Read recruiter private notes | **Deny** | **Deny** | **Owner only** | **Deny** | **Deny** | **Restricted** (support/legal, **Future**) |
 | Write recruiter private notes | **Deny** | **Deny** | **Owner only** (**Future**) | **Deny** | **Deny** | **Deny** |
@@ -70,6 +72,17 @@ Stage 3 enforces authorization for:
 | `GET /athletes/public/:slug` | Published + visibility policy (owner/guardian/admin bypass) |
 | `GET /sports`, `GET /sports/:code/positions` | Public |
 | Guardian invite/accept/revoke/links | Athlete owner invite/revoke; invited guardian accept |
+
+## Stage 5 Implemented Endpoints
+
+| Endpoint | Required role / policy |
+| --- | --- |
+| `/athletes/me/seasons*` | Owner athlete (`canManageOwnCompetitionData`) |
+| `/athletes/me/games*` | Owner athlete |
+| Game statistics upsert/delete | Owner; forced `SELF_REPORTED` + `UNVERIFIED` |
+| `/athletes/me/performance*` | Owner athlete |
+| `GET /sports/:code/statistics` | Public catalog |
+| `GET /athletes/public/:slug/performance` | Same visibility as public Passport |
 
 Rows still marked **Future** elsewhere remain architectural placeholders.
 

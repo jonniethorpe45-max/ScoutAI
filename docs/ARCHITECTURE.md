@@ -82,6 +82,24 @@ Deferred (by design beyond Stage 4):
 - Live AI provider integrations beyond mock adapters
 - Recruiter entitlement-scoped discovery
 
+## Stage 5 Scope
+
+Games, seasons, statistics, and performance testing:
+
+- Competition data plane separate from profile fields (`Season`, `AthleteSeason`, `Game`, participation)
+- Definition-driven statistics with query-time season aggregation + safe derived metrics
+- Performance test catalog + historical results + personal bests (available vs verified)
+- Athlete Games / Stats / Performance UI; public Passport performance sections
+- Soft duplicate-game warnings; verification fields reserved (no self-elevation)
+
+See `GAMES_AND_SEASONS.md`, `STATISTICS_ARCHITECTURE.md`, `PERFORMANCE_TESTING.md`.
+
+Deferred beyond Stage 5:
+
+- Verification review queue
+- Secure media / Live viewing UI
+- Recruiter discovery / AI insights
+
 ## Request Context
 
 Every API request carries:

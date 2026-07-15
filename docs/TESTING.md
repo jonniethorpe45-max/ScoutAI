@@ -174,9 +174,21 @@ Stage 3 does not mandate coverage percentages. Prioritize:
 
 Coverage reports may be added in Stage 4 (`pnpm test -- --coverage`).
 
+## Stage 5 Coverage
+
+| Suite | Location | Focus |
+| --- | --- | --- |
+| Aggregation unit | `apps/api/src/statistics/aggregation.test.ts` | SUM, derived, personal best, duplicates |
+| Stage 5 integration | `apps/api/test/integration/stage5.performance.integration.test.ts` | Authz, validation, aggregates, performance history |
+| Stage 5 E2E workflow | `apps/api/test/integration/stage5.e2e.workflow.test.ts` | Full §42 API workflow + public privacy |
+| Stage 3 + 4 regression | existing suites | Must remain green |
+
+Browser Playwright remains optional for Stage 5.
+
 ## Related Documents
 
 - `DEVELOPMENT.md` — local setup and seed credentials
 - `SECURITY.md` — security controls under test
 - `PROJECT_MANIFEST.md` — verification status
-- `AI_HANDOFF.md` — what Stage 4 inherits
+- `AI_HANDOFF.md` — next-stage handoff
+- `STAGE5_COMPLETION_REPORT.md` — Stage 5 verification

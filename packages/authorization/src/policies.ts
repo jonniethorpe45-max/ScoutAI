@@ -194,3 +194,29 @@ export function canPublishAthleteProfile(
 ): AuthorizationResult {
   return canEditOwnAthleteProfile(subject, athleteUserId);
 }
+
+/** Stage 5: manage own seasons / games / stats / performance. */
+export function canManageOwnCompetitionData(
+  subject: AuthorizationSubject | null | undefined,
+  athleteUserId: string | null | undefined,
+): AuthorizationResult {
+  return canEditOwnAthleteProfile(subject, athleteUserId);
+}
+
+/**
+ * Athletes may enter self-reported values only.
+ * Verification elevation is never allowed from athlete clients.
+ */
+export function canSetVerificationStatus(
+  subject: AuthorizationSubject | null | undefined,
+): AuthorizationResult {
+  const auth = assertAuthenticated(subject);
+  if (!auth.allowed) {
+    return auth;
+  }
+  if (isScoutAiAdmin(subject)) {
+    // Stage 5: no verification review UI yet — even admins do not auto-verify via athlete APIs.
+    return { allowed: false, reason: 'Verification status changes are not available in Stage 5 athlete APIs' };
+  }
+  return { allowed: false, reason: 'Athletes cannot set verification status' };
+}

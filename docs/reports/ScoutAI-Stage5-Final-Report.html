@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScoutAI — Stage 5 Final Report</title>
+  <style>
+    :root {
+      --ink: #14211c;
+      --muted: #4a5c54;
+      --line: #d5ddd8;
+      --bg: #f7faf8;
+      --panel: #ffffff;
+      --accent: #1f6b4a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #dceee4 0%, transparent 55%),
+        linear-gradient(180deg, #eef5f1 0%, var(--bg) 40%, #f4f7f5 100%);
+      line-height: 1.55;
+    }
+    main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    header {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 1.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+    .meta { color: var(--muted); font-size: 0.95rem; }
+    .badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid #9fcbb5;
+      background: #e8f6ef;
+      color: #14553a;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.2rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.4rem;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.55rem 0.45rem;
+      border-bottom: 1px solid var(--line);
+    }
+    th { width: 38%; color: var(--muted); font-weight: 600; }
+    ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+    li { margin: 0.25rem 0; }
+    a { color: #0f5c3d; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: #eef3f0;
+      padding: 0.05rem 0.3rem;
+    }
+    footer { margin-top: 1.5rem; color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>ScoutAI — Stage 5 Final Report</h1>
+      <div class="meta">Games, Seasons, Statistics, and Performance Testing · 2026-07-15</div>
+      <div class="badge">Final tip CI green · Closing</div>
+    </header>
+
+    <section>
+      <h2>Executive summary</h2>
+      <p>
+        Stage 5 delivers seasons, games, definition-driven statistics, performance testing,
+        athlete UI, and public Passport performance sections. CI is green on the verified tip.
+        Stage 6 remains gated pending merged closure review.
+      </p>
+    </section>
+
+    <section>
+      <h2>Delivery fields</h2>
+      <table>
+        <tr><th>PR URL</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/pull/8">https://github.com/jonniethorpe45-max/ScoutAI/pull/8</a></td></tr>
+        <tr><th>Verified tip</th><td><code>479b9c07e091421f0afe257b33dae95935a3121b</code></td></tr>
+        <tr><th>CI</th><td><a href="https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099">29456794099</a> — success</td></tr>
+        <tr><th>Stage 3/4 regression</th><td><strong>Intact</strong> — API 23/23</td></tr>
+      </table>
+      <p class="meta">See <code>docs/STAGE5_CLOSURE_REPORT.md</code> for the final merged tip SHA and post-merge main CI.</p>
+    </section>
+
+    <section>
+      <h2>What shipped</h2>
+      <ul>
+        <li>Seasons + AthleteSeason historical team context</li>
+        <li>Games + explicit participation + soft duplicate warnings</li>
+        <li>Definition-driven statistics + query-time aggregation + derived metrics</li>
+        <li>Performance tests + personal bests (available vs verified)</li>
+        <li>Athlete Games / Stats / Performance UI + public Passport sections</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Remaining known issues</h2>
+      <ul>
+        <li>No Playwright browser E2E</li>
+        <li>Verification review queue not built</li>
+        <li>Secure media deferred</li>
+        <li>CI maintenance: Node.js 20 action runtime deprecation warnings</li>
+      </ul>
+    </section>
+
+    <footer>
+      End of ScoutAI Stage 5 Final Report · <code>docs/reports/ScoutAI-Stage5-Final-Report.md</code>
+    </footer>
+  </main>
+</body>
+</html>

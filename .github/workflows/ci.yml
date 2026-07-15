@@ -5,6 +5,13 @@ on:
     branches: [main, "cursor/**"]
   pull_request:
 
+# CI maintenance (Stage 5 closure): GitHub warns that actions/checkout@v4,
+# actions/setup-node@v4, and pnpm/action-setup@v4 still declare Node.js 20
+# action runtimes and are forced onto Node.js 24. Workflow job Node remains 22
+# via setup-node. Schedule a dedicated bump to Node-24-native action majors
+# (e.g. checkout@v5+/setup-node@v5+) without mixing into product stages.
+# Ref: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
 jobs:
   check:
     name: Install · Lint · Typecheck · Test · Build
