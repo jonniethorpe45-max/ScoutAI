@@ -1,6 +1,6 @@
 # ScoutAI Testing Strategy
 
-**Stage 3 foundation.** This document defines the test pyramid, required Stage 3 coverage, and how to run the test suite from the pnpm/Turborepo workspace root.
+**Stage 4 foundation.** This document defines the test pyramid, Stage 3+4 coverage, and how to run the suite from the workspace root.
 
 ## Test Pyramid
 
@@ -26,7 +26,7 @@
 1. **Test behavior, not implementation** — assert HTTP status, response shape, and side effects (DB rows, audit events).
 2. **Hermetic integration tests** — each suite uses isolated database schema or transaction rollback; no shared mutable state across tests.
 3. **No real external services** — AI, video, live, and billing providers use mock adapters in CI.
-4. **Deterministic seeds** — `prisma/seed.ts` produces known users for auth/authz tests.
+4. **Deterministic seeds** — `packages/database/prisma/seed.ts` produces known users for auth/authz tests.
 5. **Fail CI on skip** — `@skip` or `.todo` tests are not counted toward Stage 3 exit criteria.
 
 ## Required Stage 3 Test Cases
@@ -77,6 +77,24 @@ The following cases **must** exist and pass before Stage 3 is marked verified in
 | HLTH-02 | `GET /ready` with DB + Redis up | `200`, dependencies healthy |
 | HLTH-03 | `GET /ready` with DB down | `503` or degraded status |
 
+## Required Stage 4 Test Cases
+
+| ID | Case | Expected |
+| --- | --- | --- |
+| ATH-01 | Create athlete without role via register → `POST /athletes/me` | Grants `ATHLETE`, returns owner view |
+| ATH-02 | Onboarding PATCHes + completeness | Score/checks update; publish blocked until ready |
+| ATH-03 | Publish then `GET /athletes/public/:slug` | Public fields present; DOB/email absent |
+| ATH-04 | Unpublish | Public slug returns `403` |
+| ATH-05 | Guardian invite/accept/revoke | Status transitions + links listing |
+| ATH-06 | Completeness unit (`computeCompleteness`) | Required checks gate `readyToPublish` |
+| ATH-E2E | `stage4.e2e.workflow.test.ts` | Full register → create → onboard → publish → public |
+
+Locations:
+
+- Unit: `apps/api/src/athletes/athlete.mapper.test.ts`
+- Integration: `apps/api/test/integration/stage4.athlete.integration.test.ts`
+- E2E-ish: `apps/api/test/integration/stage4.e2e.workflow.test.ts`
+
 ### Cross-cutting (recommended Stage 3)
 
 | ID | Case | Expected |
@@ -111,7 +129,7 @@ pnpm db:seed
 | `pnpm test:e2e` | Playwright E2E (**Future** if not yet wired in Stage 3) |
 | `pnpm check` | Lint + typecheck + unit tests (CI parity) |
 | `pnpm build` | Production build all apps |
-| `pnpm lint` | ESLint |
+| `pnpm lint` | Root ESLint flat config (`eslint .`) |
 | `pnpm typecheck` | `tsc --noEmit` per package |
 
 ### Package-level

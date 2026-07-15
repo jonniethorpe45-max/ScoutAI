@@ -25,6 +25,13 @@ export default function AppDashboardPage() {
         if (cancelled) {
           return;
         }
+
+        const isAthlete = me.roles.includes('ATHLETE');
+        if (isAthlete) {
+          router.replace('/app/athlete/dashboard');
+          return;
+        }
+
         setUser(me);
 
         const [health, ready] = await Promise.all([
@@ -95,7 +102,7 @@ export default function AppDashboardPage() {
       <div className="card">
         <p className="brand">ScoutAI</p>
         <h1>Dashboard</h1>
-        <p>Authenticated foundation view. Product modules are built in later stages.</p>
+        <p>Authenticated foundation view. Athlete modules are available when you have an athlete profile.</p>
 
         <ul className="metaList">
           <li>
@@ -119,6 +126,22 @@ export default function AppDashboardPage() {
             <span className={`metaValue ${statusClass(status.ready)}`}>{status.ready}</span>
           </li>
         </ul>
+
+        <div className="sectionBlock" style={{ marginTop: '1.25rem' }}>
+          <h2>Athlete Passport</h2>
+          <p>
+            Create an Athlete Passport to start onboarding. New accounts without roles receive ATHLETE
+            when creating a profile.
+          </p>
+          <div className="actions" style={{ marginTop: '0.75rem' }}>
+            <Link className="button buttonPrimary" href="/app/athlete/onboarding">
+              Start athlete onboarding
+            </Link>
+            <Link className="button buttonSecondary" href="/app/athlete/dashboard">
+              Athlete dashboard
+            </Link>
+          </div>
+        </div>
 
         <div className="actions">
           <Link className="button buttonSecondary" href="/">

@@ -14,7 +14,7 @@ import {
   canViewPublicAthleteProfile,
 } from '@scoutai/authorization';
 import type { AthleteOwnerView, AthletePublicView, CompletenessResult, OnboardingStatus, PublishResult } from '@scoutai/contracts';
-import { OnboardingStage, ProfileStatus } from '@scoutai/domain';
+import { OnboardingStage, ProfileStatus, UserRoleType } from '@scoutai/domain';
 import type {
   AcademicInput,
   BiographyInput,
@@ -129,6 +129,24 @@ export class AthletesService {
     input: CreateAthleteInput,
     requestId: string,
   ): Promise<AthleteOwnerView> {
+    // Self-service athlete signup: grant ATHLETE when the account has no roles yet.
+    // Users with conflicting roles (e.g. RECRUITER) remain denied by policy.
+    if (user.roles.length === 0) {
+      await this.prisma.client.userRole.create({
+        data: { userId: user.id, role: UserRoleType.ATHLETE },
+      });
+      user.roles = [UserRoleType.ATHLETE];
+      await this.auditService.record({
+        actorType: 'user',
+        actorId: user.id,
+        action: 'user.role.granted',
+        targetType: 'user',
+        targetId: user.id,
+        requestId,
+        metadata: { role: UserRoleType.ATHLETE, reason: 'athlete_profile_create' },
+      });
+    }
+
     const authz = canCreateOwnAthleteProfile(user);
     if (!authz.allowed) {
       throw new ForbiddenException({

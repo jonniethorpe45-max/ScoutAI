@@ -97,7 +97,7 @@ export class GuardiansService {
     }
 
     const normalizedEmail = normalizeEmail(input.guardianEmail);
-    let guardianUser = await this.prisma.client.user.findUnique({
+    const guardianUser = await this.prisma.client.user.findUnique({
       where: { normalizedEmail },
       include: { roles: true },
     });
