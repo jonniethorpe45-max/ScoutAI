@@ -23,8 +23,8 @@ Stage 5 delivers the structured athletic-performance foundation: seasons, athlet
 | **PR status** | OPEN — ready for merge after tip CI |
 | **Starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
 | **Stage 4 ancestor** | `6a292854e878bed420a9122dae34b4071162a654` |
-| **Final PR tip** | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` |
-| **CI run URL** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 |
+| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
+| **CI run URL** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 |
 | **CI result** | **success** |
 | **Stage 3/4 regression** | Intact — API integration **23/23** |
 

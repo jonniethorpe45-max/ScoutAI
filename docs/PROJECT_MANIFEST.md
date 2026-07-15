@@ -10,8 +10,8 @@
 | **Stage 4 merged commit** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
 | **Stage 5 PR** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **Final PR tip** | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` |
-| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 — **success** |
+| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
+| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 — **success** |
 | **Completion report** | [STAGE5_COMPLETION_REPORT.md](./STAGE5_COMPLETION_REPORT.md) |
 | **Closure report** | [STAGE5_CLOSURE_REPORT.md](./STAGE5_CLOSURE_REPORT.md) |
 

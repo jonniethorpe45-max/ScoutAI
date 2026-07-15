@@ -14,6 +14,7 @@
 | `2b533c5…` | success (earlier) | Listed in an earlier completion report revision |
 | `ab492654dee3f4a214fbc38b02529b6092a1a532` | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456367885 — success | Downloadable Stage 5 report commit |
 | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 — success | Closure prep (reports + Node 20 Actions note) |
+| `479b9c07e091421f0afe257b33dae95935a3121b` | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 — success | Pin reports to acf6d77 CI (superseded by next tip if present) |
 
 ---
 
@@ -22,8 +23,8 @@
 | Field | Value |
 | --- | --- |
 | **PR URL** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **Final PR tip SHA** | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` |
-| **Final PR tip CI URL** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 |
+| **Final PR tip SHA** | `479b9c07e091421f0afe257b33dae95935a3121b` |
+| **Final PR tip CI URL** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 |
 | **Final PR tip CI result** | **success** |
 | **PR status (pre-merge)** | OPEN (draft → ready for review) |
 | **Starting commit** | `c397ea4f02ce2720156525329fe896aefbc7ace6` |
@@ -45,7 +46,7 @@
 
 ## Confirmation: Stage 3 and Stage 4 regressions intact
 
-On tip `acf6d77` CI run `29456616852`:
+On tip `acf6d77` CI run `29456794099`:
 
 - Stage 3 + Stage 4 + Stage 5 API integration suites present
 - API integration **23/23**; worker **2/2**

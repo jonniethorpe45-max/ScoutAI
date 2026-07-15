@@ -16,8 +16,8 @@
 | **Stage 5 branch** | `cursor/stage5-games-stats-performance-b61c` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
 | **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/8 |
-| **Final PR tip** | `acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` |
-| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456616852 — **success** |
+| **Final PR tip** | `479b9c07e091421f0afe257b33dae95935a3121b` |
+| **CI (final tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099 — **success** |
 
 Stage 3 + Stage 4 regression suite was green on the starting SHA before implementation.
 
@@ -117,8 +117,8 @@ Completeness: Stage 5 games/performance are **recommendations**, not publish blo
 
 ## CI
 
-**Passed** on PR #8 tip `ab492654dee3f4a214fbc38b02529b6092a1a532`:  
-https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456367885
+**Passed** on PR #8 tip `479b9c07e091421f0afe257b33dae95935a3121b`:  
+https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29456794099
 
 ---
 
@@ -141,7 +141,7 @@ https://github.com/jonniethorpe45-max/ScoutAI/pull/8
 
 ## Latest commit
 
-`acf6d771ba3f2bb0cb35e8bd2329378386db8ad1` (see STAGE5_CLOSURE_REPORT.md for merged main SHA)
+`479b9c07e091421f0afe257b33dae95935a3121b` (see STAGE5_CLOSURE_REPORT.md for merged main SHA)
 
 ## Recommended next stage
 
