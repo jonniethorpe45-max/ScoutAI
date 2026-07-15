@@ -3,7 +3,7 @@
 **Project:** ScoutAI — Global Athletic Talent Intelligence Network  
 **Stage:** Stage 4 — Athlete Platform Foundation  
 **Report date:** 2026-07-15  
-**Status:** Implemented; **CI green** on PR #5; merging to `main`
+**Status:** **CLOSED** — merged to `main` (see [STAGE4_CLOSURE_REPORT.md](./STAGE4_CLOSURE_REPORT.md))
 
 ---
 
@@ -13,10 +13,12 @@
 | --- | --- |
 | **Starting commit (Stage 3 verified)** | `3c032d62990402ebf72c4736cf8257ef85bef681` |
 | **Stage 4 branch** | `cursor/stage4-athlete-platform-foundation-b61c` |
-| **Latest branch tip (pre-merge)** | `59a33a205da6b88f8f4859ac763a3f559517b5c7` |
+| **PR tip (pre-merge)** | `d60e58b96cb4023cc4110a1e2915d5768540871c` |
+| **Merged commit (`main`)** | `6a292854e878bed420a9122dae34b4071162a654` |
 | **Repository** | https://github.com/jonniethorpe45-max/ScoutAI |
-| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/5 |
-| **CI (pre-merge)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447058705 — **success** |
+| **Pull request** | https://github.com/jonniethorpe45-max/ScoutAI/pull/5 — **MERGED** |
+| **CI (PR tip)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447426192 — **success** |
+| **CI (`main` after merge)** | https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102 — **success** |
 
 Stage 3 regression suite was run on the verified base before implementation (integration API 11/11, worker 2/2, build, lint). Starting SHA recorded in `docs/PROJECT_MANIFEST.md`.
 
@@ -113,10 +115,12 @@ Browser Playwright E2E not added; API workflow covers Stage 4 §27.
 
 ## CI
 
-**Passed** on [PR #5](https://github.com/jonniethorpe45-max/ScoutAI/pull/5):  
-https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447058705  
+**Passed** on [PR #5](https://github.com/jonniethorpe45-max/ScoutAI/pull/5) tip and on merged `main`:
 
-Local gates green. Build step uses `NODE_ENV=production` for Next.js. No post-report CI fixes required.
+- PR tip: https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447426192
+- Main merge: https://github.com/jonniethorpe45-max/ScoutAI/actions/runs/29447620102
+
+Local gates green. Build step uses `NODE_ENV=production` for Next.js. No post-report code/CI fixes required.
 
 ---
 
@@ -127,6 +131,7 @@ Local gates green. Build step uses `NODE_ENV=production` for Next.js. No post-re
 3. Legal/compliance review for minor athletes remains required before production.
 4. Self-reported school/team is unverified by design.
 5. Media upload deferred.
+6. `CONNECTIONS` visibility allows any authenticated user pending recruiter entitlements.
 
 No hidden failing tests. No authorization weakened for green CI.
 
@@ -134,16 +139,17 @@ No hidden failing tests. No authorization weakened for green CI.
 
 ## Pull request
 
-https://github.com/jonniethorpe45-max/ScoutAI/pull/5
+https://github.com/jonniethorpe45-max/ScoutAI/pull/5 — **MERGED** at `6a292854e878bed420a9122dae34b4071162a654`
 
 ---
 
 ## Next stage (recommendation)
 
-**Stage 5 candidates (roadmap-aligned):** verified media/photo pipeline, game stats foundation, or recruiter discovery with entitlement-based contact reveal — without collapsing Stage 4 Passport boundaries.
+**Stage 5 is gated** pending closure review. Candidates (roadmap-aligned): verified media/photo pipeline, game stats foundation, or recruiter discovery with entitlement-based contact reveal — without collapsing Stage 4 Passport boundaries.
 
-Do not rebuild Stage 3/4 foundations.
+Do not rebuild Stage 3/4 foundations. Do not begin Stage 5 until explicitly authorized.
 
 ---
 
 *End of Stage 4 Completion Report.*
+
